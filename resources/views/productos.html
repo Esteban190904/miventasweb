@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Catálogo de Productos - Innova Negocios</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- TailwindCSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Flowbite CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />}
+  <!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+<body class="bg-gray-100 min-h-screen font-sans">
+  <!-- Header -->
+  <header class="flex items-center bg-gradient-to-r from-blue-500 via-orange-300 to-purple-600 px-6 py-4 shadow-lg text-white">
+    <div class="bg-white rounded-full p-2 shadow mr-3 flex items-center justify-center">
+      <svg width="32" height="32" viewBox="0 0 100 100">
+        <polygon points="50,13 65,41 97,41 71,61 81,92 50,73 19,92 29,61 3,41 35,41"
+          fill="none" stroke="#1a8fe3" stroke-width="6"/>
+      </svg>
+    </div>
+    <span class="text-2xl font-bold tracking-wide">INNOVA NEGOCIOS</span>
+    <!-- Botón de carrito abre modal Flowbite -->
+    <button data-modal-target="carrito-modal" data-modal-toggle="carrito-modal"
+      class="ml-auto flex items-center space-x-2 cursor-pointer hover:bg-blue-400 rounded-lg px-3 py-2 transition relative">
+      <svg width="28" height="28" fill="none" viewBox="0 0 28 28"><circle cx="11" cy="24" r="2" fill="#fff"/><circle cx="21" cy="24" r="2" fill="#fff"/><path d="M4 5h2l2.4 11.25a2 2 0 0 0 2 1.75h7.2a2 2 0 0 0 2-1.75L22 7H6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+      <span id="cart-count" class="bg-orange-400 rounded-full px-2 py-0.5 text-white text-sm font-bold absolute -top-1 -right-2">0</span>
+    </button>
+  </header>
+  <div class="flex">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white rounded-xl shadow-md m-6 p-6 h-fit sticky top-8 self-start">
+      <h3 class="text-blue-600 text-lg font-semibold mb-4 flex items-center gap-2">
+        <svg class="inline" width="22" height="22" fill="none"><rect y="4" width="22" height="2" rx="1" fill="#1a8fe3"/><rect y="11" width="22" height="2" rx="1" fill="#1a8fe3"/><rect y="18" width="22" height="2" rx="1" fill="#1a8fe3"/></svg>
+        CATEGORÍAS
+      </h3>
+      <ul class="space-y-1" id="cat-list">
+        <li class="cat-item active cursor-pointer px-3 py-2 rounded-md text-blue-700 bg-blue-50 font-medium" data-cat="">Todos</li>
+        <li class="cat-item cursor-pointer px-3 py-2 rounded-md hover:bg-blue-100" data-cat="PROCESADORES">PROCESADORES</li>
+        <li class="cat-item cursor-pointer px-3 py-2 rounded-md hover:bg-blue-100" data-cat="MEMORIA RAM">MEMORIA RAM</li>
+        <li class="cat-item cursor-pointer px-3 py-2 rounded-md hover:bg-blue-100" data-cat="SILLAS GAMER">SILLAS GAMER</li>
+        <li class="cat-item cursor-pointer px-3 py-2 rounded-md hover:bg-blue-100" data-cat="LAPTOPS">LAPTOPS</li>
+        <li class="cat-item cursor-pointer px-3 py-2 rounded-md hover:bg-blue-100" data-cat="PLACA MADRE">PLACA MADRE</li>
+        <li class="cat-item cursor-pointer px-3 py-2 rounded-md hover:bg-blue-100" data-cat="TARJETAS DE VIDEO">TARJETAS DE VIDEO</li>
+        <li class="cat-item cursor-pointer px-3 py-2 rounded-md hover:bg-blue-100" data-cat="PERIFÉRICOS">PERIFÉRICOS</li>
+      </ul>
+      <div class="mt-8">
+        <h3 class="text-blue-600 text-md font-semibold mb-2">Precio</h3>
+        <div class="flex space-x-2">
+          <input type="number" id="min-precio" placeholder="Mín" class="w-20 rounded border-gray-300 focus:ring-blue-400">
+          <span>-</span>
+          <input type="number" id="max-precio" placeholder="Máx" class="w-20 rounded border-gray-300 focus:ring-blue-400">
+        </div>
+      </div>
+    </aside>
+    <!-- Main content -->
+    <main class="flex-1 px-2 py-8">
+      <h1 class="text-2xl font-bold mb-5">Catálogo de Productos</h1>
+      <div class="flex flex-wrap gap-4 mb-4">
+        <input id="busqueda" type="text" placeholder="Buscar producto..." class="rounded-md border border-gray-300 p-2 focus:ring-2 focus:ring-blue-400 flex-1 max-w-xs">
+      </div>
+      <div id="productos-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <div>Cargando productos...</div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal de carrito Flowbite -->
+  <div id="carrito-modal" tabindex="-1" aria-hidden="true"
+    class="hidden fixed top-0 left-0 right-0 z-[9998] w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full bg-black/30">
+    <div class="relative w-full max-w-md h-full md:h-auto m-auto mt-20">
+      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 
+            hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="carrito-modal">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" 
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" 
+            clip-rule="evenodd"></path></svg>
+        </button>
+        <div class="px-6 py-6 lg:px-8">
+          <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Carrito de compras</h3>
+          <div id="carrito-items"></div>
+          <div id="carrito-total" class="font-bold mt-4 mb-2"></div>
+          <button onclick="finalizarCompra()" class="mt-2 bg-blue-500 text-white font-bold px-6 py-2 rounded hover:bg-orange-400 transition">Finalizar compra</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flowbite JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+  <script>
+    const ENDPOINT = "http://127.0.0.1:8000/api/productos";
+    const DEFAULT_IMG = "https://cdn-icons-png.flaticon.com/512/1048/1048953.png";
+
+    const categoriaNombres = {
+      "1": "LAPTOPS",
+      "2": "PERIFÉRICOS",
+      "3": "PROCESADORES",
+      "4": "MEMORIA RAM",
+      "5": "SILLAS GAMER",
+      "6": "PLACA MADRE",
+      "7": "TARJETAS DE VIDEO",
+    };
+
+    let productosData = [];
+
+    function precioFormateado(precio) {
+      return 'S/ ' + Number(precio).toLocaleString('es-PE', {minimumFractionDigits: 2});
+    }
+
+    function renderProductos(productos) {
+      const grid = document.getElementById('productos-grid');
+      grid.innerHTML = "";
+      if (!productos || productos.length === 0) {
+        grid.innerHTML = "<div>No hay productos disponibles.</div>";
+        return;
+      }
+      productos.forEach(prod => {
+        let catNombre = prod.categoria && prod.categoria.nombre ? prod.categoria.nombre : categoriaNombres[prod.categoria_id] || "";
+        let imgUrl = prod.imagen ? 'http://127.0.0.1:8000/uploads/' + prod.imagen : DEFAULT_IMG;
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-lg shadow flex flex-col items-center p-5 transition hover:shadow-xl min-h-[280px]';
+        card.innerHTML = `
+          <img src="${imgUrl}" alt="${prod.nombre}" class="w-28 h-28 object-contain rounded mb-3 bg-blue-50" />
+          <div class="text-lg font-bold text-center mb-1">${prod.nombre}</div>
+          <div class="text-gray-500 text-sm mb-1">${catNombre}</div>
+          <div class="text-orange-500 font-bold mb-2">${precioFormateado(prod.precio)}</div>
+          <button class="bg-blue-500 hover:bg-orange-400 transition text-white font-semibold px-4 py-2 rounded" onclick="agregarAlCarrito(${prod.id})">Agregar al carrito</button>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function filtrarProductos() {
+  const filtroCat = document.querySelector('.cat-item.active').getAttribute('data-cat');
+  const busqueda = document.getElementById('busqueda').value.trim().toLowerCase();
+  const minPrecio = parseFloat(document.getElementById('min-precio').value) || 0;
+  const maxPrecio = parseFloat(document.getElementById('max-precio').value) || Infinity;
+
+  let filtrados = productosData.filter(prod => {
+    let catNombre = (prod.categoria && prod.categoria.nombre) ? prod.categoria.nombre : categoriaNombres[prod.categoria_id] || "";
+    // Haz que la comparación de categoría sea insensible a mayúsculas/minúsculas
+    let nombreMatch = prod.nombre.toLowerCase().includes(busqueda);
+    let catMatch = !filtroCat || catNombre.toLowerCase() === filtroCat.toLowerCase();
+    let precio = parseFloat(prod.precio);
+    let precioMatch = precio >= minPrecio && precio <= maxPrecio;
+    return nombreMatch && catMatch && precioMatch;
+  });
+  renderProductos(filtrados);
+  cargarProductos();
+}
+
+
+    document.getElementById('cat-list').onclick = function(e) {
+      if (e.target.tagName === 'LI') {
+        document.querySelectorAll('.cat-item').forEach(li => li.classList.remove('active', 'text-blue-700', 'bg-blue-50', 'font-medium'));
+        e.target.classList.add('active', 'text-blue-700', 'bg-blue-50', 'font-medium');
+        filtrarProductos();
+      }
+    };
+    document.getElementById('busqueda').oninput = filtrarProductos;
+    document.getElementById('min-precio').oninput = filtrarProductos;
+    document.getElementById('max-precio').oninput = filtrarProductos;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      fetch(ENDPOINT)
+        .then(res => res.json())
+        .then(data => {
+          productosData = data;
+          renderProductos(productosData);
+          actualizarCartCount();
+        })
+        .catch(() => {
+          document.getElementById('productos-grid').innerHTML = "<div>No se pudo cargar el catálogo.</div>";
+        });
+    });
+
+    // ----------- CARRITO DE COMPRAS (Flowbite Modal) ----------------
+    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+    function guardarCarrito() {
+      localStorage.setItem('carrito', JSON.stringify(carrito));
+    }
+
+    function actualizarCartCount() {
+      document.getElementById('cart-count').textContent = carrito.reduce((acc, item) => acc + item.cantidad, 0);
+    }
+
+    function agregarAlCarrito(id) {
+      const producto = productosData.find(p => p.id === id);
+      if (!producto) return;
+      const index = carrito.findIndex(item => item.id === id);
+      if (index !== -1) {
+        carrito[index].cantidad += 1;
+      } else {
+        carrito.push({
+          id: producto.id,
+          nombre: producto.nombre,
+          precio: producto.precio,
+          imagen: producto.imagen,
+          cantidad: 1
+        });
+      }
+      guardarCarrito();
+      actualizarCartCount();
+      mostrarNotificacion(`${producto.nombre} añadido al carrito`);
+      // Si quieres abrir el modal automáticamente al agregar, descomenta:
+      // document.querySelector('[data-modal-toggle="carrito-modal"]').click();
+    }
+
+    function mostrarNotificacion(msg) {
+      let notif = document.createElement('div');
+      notif.textContent = msg;
+      notif.className = "fixed top-12 right-10 bg-blue-500 text-white px-6 py-3 rounded shadow-xl font-semibold z-[9999]";
+      document.body.appendChild(notif);
+      setTimeout(() => notif.remove(), 2100);
+    }
+
+    // Llenar el modal cuando se abra
+    document.addEventListener('show.bs.modal', function (event) {
+      if (event.target.id === "carrito-modal") {
+        renderizarCarritoItems();
+      }
+    });
+
+    // Si no detecta el evento anterior (CDN), puedes usar esto al hacer clic en el carrito:
+    document.querySelector('[data-modal-toggle="carrito-modal"]').addEventListener('click', renderizarCarritoItems);
+
+    function renderizarCarritoItems() {
+      const itemsDiv = document.getElementById('carrito-items');
+      if (!carrito.length) {
+        itemsDiv.innerHTML = "<div>No hay productos en el carrito.</div>";
+        document.getElementById('carrito-total').textContent = '';
+        return;
+      }
+      itemsDiv.innerHTML = carrito.map(item => `
+        <div class="flex items-center mb-4 gap-4">
+          <img src="${item.imagen ? 'http://127.0.0.1:8000/uploads/' + item.imagen : DEFAULT_IMG}" alt="${item.nombre}" class="w-10 h-10 rounded object-cover bg-blue-50" />
+          <div class="flex-1">
+            <div class="font-semibold">${item.nombre}</div>
+            <div class="text-sm text-gray-500">S/ ${Number(item.precio).toFixed(2)} x ${item.cantidad}</div>
+          </div>
+          <button onclick="eliminarDelCarrito(${item.id})" class="text-orange-500 text-2xl leading-5 hover:text-red-500">&times;</button>
+        </div>
+      `).join('');
+      const total = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
+      document.getElementById('carrito-total').textContent = 'Total: S/ ' + total.toFixed(2);
+    }
+
+    function eliminarDelCarrito(id) {
+      carrito = carrito.filter(item => item.id !== id);
+      guardarCarrito();
+      actualizarCartCount();
+      renderizarCarritoItems();
+    }
+
+    function finalizarCompra() {
+  Swal.fire({
+    icon: 'success',
+    title: '¡Gracias por tu compra!',
+    text: 'Te contactaremos para coordinar la entrega.',
+    timer: 1800,
+    showConfirmButton: false
+  });
+  carrito = [];
+  guardarCarrito();
+  actualizarCartCount();
+  document.querySelector('[data-modal-hide="carrito-modal"]').click();
+}
+
+  </script>
+</body>
+</html>

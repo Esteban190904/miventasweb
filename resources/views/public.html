@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Innova Negocios | Soluciones en Tecnología y Servicios</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-50">
+
+
+  <nav class="w-full bg-white shadow-sm border-b sticky top-0 z-30">
+  <div class="max-w-6xl mx-auto flex justify-between items-center px-4 py-3">
+    <div class="flex items-center">
+      <svg width="30" height="30" class="mr-2" viewBox="0 0 100 100">
+        <polygon points="50,13 65,41 97,41 71,61 81,92 50,73 19,92 29,61 3,41 35,41"
+          fill="none" stroke="#1a8fe3" stroke-width="6"/>
+      </svg>
+      <span class="text-lg font-bold text-blue-700">Innova Negocios</span>
+    </div>
+    <ul class="hidden md:flex gap-7 text-gray-700 font-semibold items-center">
+      <li><a href="#inicio" class="hover:text-blue-700 transition">Inicio</a></li>
+      <li><a href="#productos" class="hover:text-blue-700 transition">Productos</a></li>
+      <li><a href="#testimonios" class="hover:text-blue-700 transition">Testimonios</a></li>
+      <li><a href="#contacto" class="hover:text-blue-700 transition">Contacto</a></li>
+      <li>
+        <a href="#productos" class="ml-3 px-5 py-2 bg-blue-700 text-white rounded-lg font-bold hover:bg-blue-800 transition">
+          Ver Catálogo
+        </a>
+      </li>
+    </ul>
+    <!-- Menú mobile -->
+    <button id="menu-btn" class="md:hidden p-2 text-blue-700">
+      <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+  </div>
+  <!-- Menú mobile desplegable -->
+  <div id="menu-mobile" class="hidden md:hidden bg-white px-4 pt-2 pb-4 border-t">
+    <ul class="flex flex-col gap-3 font-semibold">
+      <li><a href="#inicio" class="block py-2 px-2 hover:text-blue-600">Inicio</a></li>
+      <li><a href="#productos" class="block py-2 px-2 hover:text-blue-600">Productos</a></li>
+      <li><a href="#testimonios" class="block py-2 px-2 hover:text-blue-600">Testimonios</a></li>
+      <li><a href="#contacto" class="block py-2 px-2 hover:text-blue-600">Contacto</a></li>
+      <li>
+        <a href="#productos" class="block py-2 px-2 bg-blue-700 text-white rounded-lg text-center hover:bg-blue-800 transition">
+          Ver Catálogo
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+  <!-- HEADER / HERO -->
+  
+  <section id="inicio">
+  <header class="bg-gradient-to-r from-blue-600 to-violet-700 text-white">
+    <div class="max-w-6xl mx-auto px-4 py-16 flex flex-col md:flex-row items-center justify-between">
+      <div class="md:w-1/2 mb-8 md:mb-0">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
+          Soluciones en Tecnología para tu Negocio
+        </h1>
+        <p class="text-lg mb-6">
+          En <span class="font-bold">Innova Negocios</span> nos especializamos en la venta de equipos, accesorios, y servicios técnicos de cómputo. Impulsa el crecimiento de tu empresa con productos confiables y soporte profesional.
+        </p>
+        <a href="#contacto" class="inline-block px-6 py-3 bg-white text-blue-700 font-bold rounded-lg shadow hover:bg-gray-100 transition">¡Solicita una Cotización!</a>
+      </div>
+      <div class="md:w-1/2 flex justify-center">
+        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=cover&w=500&q=80" alt="Equipos Innova Negocios" class="rounded-2xl shadow-xl w-96 max-w-full">
+      </div>
+    </div>
+  </header>
+</section>
+  <!-- PRODUCTOS Y SERVICIOS DESTACADOS -->
+  <section class="py-14 bg-white" id="productos">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center text-blue-700 mb-10">Nuestros Productos y Servicios</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+        <div class="bg-blue-50 p-6 rounded-xl shadow hover:shadow-lg transition">
+          <div class="mb-3">
+            <svg class="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 3v4M8 3v4" /></svg>
+          </div>
+          <h3 class="font-bold text-xl mb-2">Laptops y PCs</h3>
+          <p class="text-gray-700">Venta de computadoras, laptops y equipos de alto rendimiento para tu negocio o uso personal.</p>
+        </div>
+        <div class="bg-blue-50 p-6 rounded-xl shadow hover:shadow-lg transition">
+          <div class="mb-3">
+            <svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 17H7V7h10v10z" /><path d="M3 3h18v18H3V3z" /></svg>
+          </div>
+          <h3 class="font-bold text-xl mb-2">Accesorios y Periféricos</h3>
+          <p class="text-gray-700">Mouse, teclados, monitores, impresoras y todo lo que tu oficina necesita.</p>
+        </div>
+        <div class="bg-blue-50 p-6 rounded-xl shadow hover:shadow-lg transition">
+          <div class="mb-3">
+            <svg class="w-10 h-10 text-violet-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6" /><path d="M21 22v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2" /></svg>
+          </div>
+          <h3 class="font-bold text-xl mb-2">Soporte Técnico y Reparaciones</h3>
+          <p class="text-gray-700">Servicio técnico especializado en reparación de computadoras, impresoras y diagnóstico de hardware.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- Mostrar productos-->
+<section id="productos" class="py-14 bg-gray-50">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center text-blue-700 mb-10">PRODUCTOS ESTRELLA</h2>
+    <div id="productos-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"></div>
+  </div>
+</section>
+
+
+  <!-- TESTIMONIOS -->
+  <section class="py-14 bg-gray-50" id="testimonios">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center text-blue-700 mb-10">Lo que dicen nuestros clientes</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white p-6 rounded-xl shadow flex flex-col items-center">
+          <img src="https://randomuser.me/api/portraits/men/33.jpg" class="w-16 h-16 rounded-full mb-3" alt="Cliente 1">
+          <p class="italic text-gray-700 mb-2">“Excelente atención y productos de calidad. Mi empresa ahora es mucho más eficiente.”</p>
+          <span class="font-bold text-blue-700">Carlos López</span>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow flex flex-col items-center">
+          <img src="https://randomuser.me/api/portraits/women/68.jpg" class="w-16 h-16 rounded-full mb-3" alt="Cliente 2">
+          <p class="italic text-gray-700 mb-2">“Repararon mi laptop en tiempo récord, ¡recomendados!”</p>
+          <span class="font-bold text-blue-700">María Gutiérrez</span>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow flex flex-col items-center">
+          <img src="https://randomuser.me/api/portraits/men/52.jpg" class="w-16 h-16 rounded-full mb-3" alt="Cliente 3">
+          <p class="italic text-gray-700 mb-2">“El soporte técnico siempre está disponible. Excelente servicio post venta.”</p>
+          <span class="font-bold text-blue-700">Luis Fernández</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="py-16 bg-white" id="contacto">
+    <div class="max-w-2xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-blue-700 text-center mb-8">Contáctanos</h2>
+      <form class="bg-gray-50 p-8 rounded-xl shadow flex flex-col gap-4">
+        <div>
+          <label class="block mb-1 font-semibold" for="nombre">Nombre</label>
+          <input id="nombre" name="nombre" required class="w-full px-4 py-2 border rounded focus:ring focus:ring-blue-200" type="text" placeholder="Tu nombre" />
+        </div>
+        <div>
+          <label class="block mb-1 font-semibold" for="correo">Correo electrónico</label>
+          <input id="correo" name="correo" required class="w-full px-4 py-2 border rounded focus:ring focus:ring-blue-200" type="email" placeholder="usuario@correo.com" />
+        </div>
+        <div>
+          <label class="block mb-1 font-semibold" for="mensaje">Mensaje</label>
+          <textarea id="mensaje" name="mensaje" required rows="3" class="w-full px-4 py-2 border rounded focus:ring focus:ring-blue-200" placeholder="¿En qué podemos ayudarte?"></textarea>
+        </div>
+        <button type="submit" class="bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 rounded-lg transition">Enviar mensaje</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-blue-900 text-white py-6 mt-10">
+  <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+    <div class="flex items-center mb-4 md:mb-0">
+      <svg width="28" height="28" class="mr-2" viewBox="0 0 100 100">
+        <polygon points="50,13 65,41 97,41 71,61 81,92 50,73 19,92 29,61 3,41 35,41"
+          fill="none" stroke="#fff" stroke-width="6"/>
+      </svg>
+      <span class="font-bold">Innova Negocios</span>
+    </div>
+
+    <!-- ICONOS DE REDES SOCIALES -->
+    <div class="flex space-x-4 mb-4 md:mb-0">
+      <a href="https://facebook.com/" target="_blank" aria-label="Facebook" class="hover:text-blue-400 transition">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M22 12.07C22 6.48 17.52 2 12 2S2 6.48 2 12.07c0 5.01 3.66 9.13 8.44 9.93v-7.03h-2.54V12h2.54v-1.56c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.47h-1.26c-1.25 0-1.64.78-1.64 1.58V12h2.8l-.45 2.97h-2.35v7.03C18.34 21.2 22 17.08 22 12.07z"/>
+        </svg>
+      </a>
+      <a href="https://instagram.com/" target="_blank" aria-label="Instagram" class="hover:text-pink-400 transition">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5zm4.25 2A6.75 6.75 0 1 1 5.25 12 6.75 6.75 0 0 1 12 5.5zm0 1.5A5.25 5.25 0 1 0 17.25 12 5.25 5.25 0 0 0 12 7zm6.25-.88a1.13 1.13 0 1 1-1.13 1.13 1.13 1.13 0 0 1 1.13-1.13z"/>
+        </svg>
+      </a>
+      <a href="https://wa.me/51999999999" target="_blank" aria-label="WhatsApp" class="hover:text-green-400 transition">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M20.52 3.48A12.06 12.06 0 0 0 12 0C5.37 0 0 5.37 0 12a12 12 0 0 0 1.67 6.15L0 24l5.92-1.56A12.08 12.08 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zm-8.52 18.02a10.03 10.03 0 0 1-5.12-1.41l-.37-.22-3.51.93.94-3.42-.24-.35A10.02 10.02 0 1 1 12 22.5zm5.39-7.32c-.29-.15-1.69-.83-1.95-.93s-.45-.15-.64.15-.73.93-.9 1.12-.33.22-.62.07A8.37 8.37 0 0 1 7.7 13.1c-.18-.19-.18-.43 0-.58s.27-.29.4-.44.18-.25.27-.4a.45.45 0 0 0 0-.44c-.07-.15-.64-1.55-.88-2.13-.23-.56-.47-.49-.65-.5s-.35 0-.53 0a1 1 0 0 0-.73.35A4.18 4.18 0 0 0 5.04 11.5c0 2.7 2.2 4.9 4.9 4.9a4.72 4.72 0 0 0 2.59-.76 1.06 1.06 0 0 0 .36-.76c0-.15-.06-.26-.11-.36z"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="text-sm">&copy; 2024 Innova Negocios. Todos los derechos reservados.</div>
+  </div>
+  <a href="loginusuarios.html" class="text-sm underline ml-4 hover:text-blue-200">Acceso trabajadores</a>
+
+</footer>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+
+
+<!--Scrip para mostrar los productos-->
+  <script>
+fetch('http://127.0.0.1:8000/api/productos')
+  .then(res => res.json())
+  .then(productos => {
+    let grid = document.getElementById('productos-grid');
+    grid.innerHTML = '';
+    productos.forEach(prod => {
+      grid.innerHTML += `
+        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg flex flex-col transition">
+          <div class="flex-1 mb-3 flex items-center justify-center">
+            <img src="${prod.imagen ?? 'https://via.placeholder.com/120x100?text=Producto'}"
+                 alt="${prod.nombre}" class="w-32 h-24 object-contain rounded mb-3"/>
+          </div>
+          <h3 class="font-bold text-lg mb-1 text-blue-800">${prod.nombre}</h3>
+          <div class="text-gray-700 mb-1">${prod.descripcion ?? ''}</div>
+          <div class="font-semibold text-blue-600 mb-3">S/ ${parseFloat(prod.precio).toFixed(2)}</div>
+          <!-- Si quieres, agrega botón de contacto o compra aquí -->
+        </div>
+      `;
+    });
+  });
+</script>
+
+<!--Bajar lento-->
+<script>
+document.querySelectorAll('a[href^="#"]').forEach(enlace => {
+  enlace.addEventListener('click', function(e) {
+    const destino = document.querySelector(this.getAttribute('href'));
+    if (destino) {
+      e.preventDefault();
+      destino.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+</script>
+
+<script>
+document.querySelector('form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  // Aquí podrías hacer un fetch a un endpoint de contacto real, o simplemente:
+  alert('¡Mensaje enviado! Nos pondremos en contacto contigo pronto.');
+  this.reset();
+});
+</script>
+
+
+</body>
+</html>

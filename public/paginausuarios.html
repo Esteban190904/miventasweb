@@ -1,0 +1,1798 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel de Control - Innova Negocios</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tailwind + Flowbite -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<style>
+/* Solución universal para evitar que Tailwind afecte los botones SweetAlert2 */
+.swal2-popup .swal2-styled {
+    color: #fff !important; /* blanco para el botón principal */
+}
+.swal2-popup .swal2-styled.swal2-cancel {
+    color: #fff !important; /* blanco también para cancelar */
+    background-color: #3085d6 !important; /* azul de SweetAlert */
+}
+.swal2-popup .swal2-styled.swal2-confirm {
+    color: #fff !important;
+    background-color: #d33 !important; /* rojo para confirmar (o el color que prefieras) */
+}
+</style>
+
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white shadow-md flex flex-col justify-between">
+      <div>
+        <div class="flex items-center px-6 py-5 bg-blue-600">
+          <svg width="32" height="32" class="mr-3" viewBox="0 0 100 100">
+            <polygon points="50,13 65,41 97,41 71,61 81,92 50,73 19,92 29,61 3,41 35,41"
+              fill="none" stroke="#fff" stroke-width="6"/>
+          </svg>
+          <span class="text-xl font-bold text-white">INNOVA NEGOCIOS</span>
+        </div>
+        <nav class="mt-4">
+          <ul class="space-y-1 px-3">
+            <li>
+              <button onclick="showSection('inicio')" id="btn-inicio"
+                class="w-full text-left flex items-center px-4 py-3 rounded-md text-blue-700 bg-blue-50 font-semibold hover:bg-blue-100 transition">
+                <svg class="mr-3 w-5 h-5 text-blue-400" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 12l9-9 9 9"/>
+                  <path d="M9 21V9h6v12"/>
+                </svg>
+                Inicio
+              </button>
+            </li>
+            <li>
+              <button onclick="showSection('productos')" id="btn-productos"
+                class="w-full text-left flex items-center px-4 py-3 rounded-md text-gray-700 hover:bg-blue-50 transition">
+                <svg class="mr-3 w-5 h-5 text-blue-400" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4.1a2 2 0 0 0-2 0l-7 4.1A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4.1a2 2 0 0 0 2 0l7-4.1A2 2 0 0 0 21 16z"/>
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                </svg>
+                Productos
+              </button>
+            </li>
+            <li>
+              <button onclick="showSection('categorias')" id="btn-categorias"
+                class="w-full text-left flex items-center px-4 py-3 rounded-md text-gray-700 hover:bg-blue-50 transition">
+                <svg class="mr-3 w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7 17l10-10M2 12l10-10 10 10-10 10-10-10z"/>
+                </svg>
+                Categorías
+              </button>
+            </li>
+            <li>
+              <button onclick="showSection('clientes')" id="btn-clientes"
+                class="w-full text-left flex items-center px-4 py-3 rounded-md text-gray-700 hover:bg-blue-50 transition">
+                <svg class="mr-3 w-5 h-5 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="7" r="4"/>
+                  <path d="M5.5 21v-2a6.5 6.5 0 0 1 13 0v2"/>
+                </svg>
+                Clientes
+              </button>
+            </li>
+            <li>
+              <button onclick="showSection('ventas')" id="btn-ventas"
+                class="w-full text-left flex items-center px-4 py-3 rounded-md text-gray-700 hover:bg-blue-50 transition">
+                <svg class="mr-3 w-5 h-5 text-pink-500" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="9" cy="21" r="1"/>
+                  <circle cx="20" cy="21" r="1"/>
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                </svg>
+                Ventas
+              </button>
+            </li>
+            <li>
+              <button onclick="showSection('reportes')" id="btn-reportes"
+                class="w-full text-left flex items-center px-4 py-3 rounded-md text-gray-700 hover:bg-blue-50 transition">
+                <svg class="mr-3 w-5 h-5 text-purple-500" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 3v18h18"/>
+                  <rect x="7" y="13" width="3" height="5"/>
+                  <rect x="12" y="9" width="3" height="9"/>
+                  <rect x="17" y="5" width="3" height="13"/>
+                </svg>
+                Reportes
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <!-- Footer Sidebar (usuario, logout) -->
+      <div class="px-6 py-4 border-t bg-gray-50 flex items-center gap-3">
+        <svg class="w-10 h-10 text-blue-500 bg-blue-100 rounded-full p-2" fill="none" stroke="currentColor" stroke-width="2"
+          viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="7" r="4"/>
+          <path d="M5.5 21v-2a6.5 6.5 0 0 1 13 0v2"/>
+        </svg>
+        <div>
+          <div class="text-sm font-semibold" id="sidebar-usuario-nombre">Usuario</div>
+          <a href="#" class="text-xs text-blue-500 hover:underline" onclick="logout()">Cerrar sesión</a>
+        </div>
+
+      </div>
+    </aside>
+    <!-- Zona principal del dashboard -->
+    <div class="flex-1 flex flex-col">
+      <header class="bg-white px-6 py-4 shadow flex items-center justify-between">
+        <h1 class="text-2xl font-bold text-blue-700" id="main-title">Panel de Control</h1>
+      </header>
+      <main class="flex-1 overflow-y-auto p-8">
+        <!-- INICIO -->
+        <section id="section-inicio">
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+            <div class="bg-white shadow rounded-lg p-6 flex items-center">
+              <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4.1a2 2 0 0 0-2 0l-7 4.1A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4.1a2 2 0 0 0 2 0l7-4.1A2 2 0 0 0 21 16z"/>
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                </svg>
+              </div>
+              <div>
+                <div class="text-xl font-bold text-blue-700" id="contador-productos">0</div>
+                <div class="text-gray-600 text-sm">Productos</div>
+              </div>
+            </div>
+            <div class="bg-white shadow rounded-lg p-6 flex items-center">
+              <div class="bg-orange-100 p-3 rounded-lg mr-4">
+                <svg class="w-8 h-8 text-pink-500" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="9" cy="21" r="1"/>
+                  <circle cx="20" cy="21" r="1"/>
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                </svg>
+              </div>
+              <div>
+                <div class="text-xl font-bold text-pink-500" id="contador-ventas">0</div>
+                <div class="text-gray-600 text-sm">Ventas</div>
+              </div>
+            </div>
+            <div class="bg-white shadow rounded-lg p-6 flex items-center">
+              <div class="bg-green-100 p-3 rounded-lg mr-4">
+                <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="7" r="4"/>
+                  <path d="M5.5 21v-2a6.5 6.5 0 0 1 13 0v2"/>
+                </svg>
+              </div>
+              <div>
+                <div class="text-xl font-bold text-green-600" id="contador-clientes">0</div>
+                <div class="text-gray-600 text-sm">Clientes</div>
+              </div>
+            </div>
+            <div class="bg-white shadow rounded-lg p-6 flex items-center">
+              <div class="bg-purple-100 p-3 rounded-lg mr-4">
+                <svg class="w-8 h-8 text-purple-500" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 3v18h18"/>
+                  <rect x="7" y="13" width="3" height="5"/>
+                  <rect x="12" y="9" width="3" height="9"/>
+                  <rect x="17" y="5" width="3" height="13"/>
+                </svg>
+              </div>
+              <div>
+                <div class="text-xl font-bold text-purple-500" id="contador-reportes">0</div>
+                <div class="text-gray-600 text-sm">Reportes</div>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white rounded-lg shadow p-6 mt-6">
+            <h2 class="text-xl font-semibold mb-4 text-blue-700">Bienvenido al panel administrativo de Innova Negocios</h2>
+            <p class="text-gray-700">Selecciona una opción en el menú lateral para comenzar a gestionar productos, ventas, clientes y más.</p>
+          </div>
+        </section>
+        <!-- PRODUCTOS -->
+        <!-- PRODUCTOS (Solo Interfaz CRUD) -->
+<!-- PRODUCTOS (Solo Interfaz CRUD) -->
+<section id="section-productos" style="display:none;">
+  <div class="bg-white shadow rounded-lg p-6 mb-8">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-2xl font-bold text-blue-700">Gestión de Productos</h2>
+      <button 
+        onclick="openModalProducto()" 
+        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold flex items-center gap-2"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+          viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+        Nuevo producto
+      </button>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white" id="productos-table">
+        <thead>
+          <tr>
+            <th class="py-2 px-4 border-b text-left font-semibold">#</th>
+            <th class="py-2 px-4 border-b text-left font-semibold">Nombre</th>
+            <th class="py-2 px-4 border-b text-left font-semibold">Descripción</th>
+            <th class="py-2 px-4 border-b text-left font-semibold">Categoría</th>
+            <th class="py-2 px-4 border-b text-left font-semibold">Precio</th>
+            <th class="py-2 px-4 border-b text-left font-semibold">Stock</th>
+            <th class="py-2 px-4 border-b text-left font-semibold">Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="productos-tbody">
+          <!-- Ejemplo de filas estáticas para mostrar el diseño -->
+          
+          <!-- Puedes copiar/pegar este <tr> para más productos de ejemplo -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- MODAL AGREGAR PRODUCTO -->
+  <div id="modal-producto" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40" style="display:none;">
+    <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-md">
+      <h3 class="text-2xl font-bold text-blue-700 mb-4">Agregar Producto</h3>
+      <form id="form-producto" class="flex flex-col gap-4" onsubmit="enviarProducto(event)">
+        <div>
+          <label class="block font-semibold mb-1" for="nombre-producto">Nombre</label>
+          <input id="nombre-producto" required class="w-full border px-3 py-2 rounded focus:ring focus:ring-blue-200" type="text" placeholder="Ej: Laptop HP 14 &quot;"/>
+        </div>
+        <div>
+          <label class="block font-semibold mb-1" for="desc-producto">Descripción</label>
+          <textarea id="desc-producto" class="w-full border px-3 py-2 rounded focus:ring focus:ring-blue-200" placeholder="Ej: Ryzen 5, 8GB RAM, SSD 256GB"></textarea>
+        </div>
+        <label class="block font-semibold mb-1" for="cat-producto">Categoría</label>
+        <select id="categoria-producto" name="categoria_id" required>
+    
+        </select>
+        <div class="flex gap-3">
+          <div class="flex-1">
+            <label class="block font-semibold mb-1" for="precio-producto">Precio</label>
+            <input id="precio-producto" required class="w-full border px-3 py-2 rounded focus:ring focus:ring-blue-200" type="number" min="0" step="0.01" placeholder="2300.00"/>
+          </div>
+          <div class="flex-1">
+            <label class="block font-semibold mb-1" for="stock-producto">Stock</label>
+            <input id="stock-producto" required class="w-full border px-3 py-2 rounded focus:ring focus:ring-blue-200" type="number" min="0" placeholder="13"/>
+          </div>
+        </div>
+        <div class="flex justify-end gap-3 mt-2">
+          <button type="button" onclick="closeModalProducto()" class="bg-gray-200 text-gray-700 px-5 py-2 rounded-lg font-semibold hover:bg-gray-300">Cancelar</button>
+          <button type="submit" class="bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-800">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Modal mostrar/ocultar
+  function openModalProducto() {
+    document.getElementById('modal-producto').style.display = 'flex';
+  }
+  function closeModalProducto() {
+    document.getElementById('modal-producto').style.display = 'none';
+  }
+  // Simulación de envío
+  function enviarProducto(event) {
+    event.preventDefault();
+    closeModalProducto();
+    alert("¡Producto registrado (simulación)!");
+    // Aquí podrías limpiar el formulario o agregar lógica.
+  }
+</script>
+
+
+        <!-- CATEGORÍAS -->
+        <!-- CATEGORÍAS -->
+<section id="section-categorias" style="display:none;">
+  <div class="bg-white shadow rounded-lg p-6 mb-8">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-2xl font-bold text-yellow-500">Gestión de Categorías</h2>
+      <button 
+        onclick="openModalCategoria()" 
+        class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg font-semibold flex items-center gap-2"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+          viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+        Nueva categoría
+      </button>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white" id="categorias-table">
+        <thead>
+          <tr>
+            <th class="py-2 px-4 border-b text-left font-semibold">#</th>
+            <th class="py-2 px-4 border-b text-left font-semibold">Nombre</th>
+            <th class="py-2 px-4 border-b text-left font-semibold">Descripción</th>
+            <th class="py-2 px-4 border-b text-left font-semibold">Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="categorias-tbody">
+          <!-- Ejemplo de fila -->
+          
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- MODAL AGREGAR CATEGORÍA -->
+  <div id="modal-categoria" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40" style="display:none;">
+    <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-md">
+      <h3 id="form-categoria-titulo" class="text-2xl font-bold text-yellow-500 mb-4">Agregar Categoría</h3>
+      <form id="form-categoria" class="flex flex-col gap-4">
+        <div>
+          <label class="block font-semibold mb-1" for="nombre-categoria">Nombre</label>
+          <input id="nombre-categoria" required class="w-full border px-3 py-2 rounded focus:ring focus:ring-yellow-200" type="text" placeholder="Ej: Laptops"/>
+        </div>
+        <div>
+          <label class="block font-semibold mb-1" for="desc-categoria">Descripción</label>
+          <textarea id="desc-categoria" class="w-full border px-3 py-2 rounded focus:ring focus:ring-yellow-200" placeholder="Ej: Portátiles de todas las gamas"></textarea>
+        </div>
+        <div class="flex justify-end gap-3 mt-2">
+          <button type="button" onclick="closeModalCategoria()" class="bg-gray-200 text-gray-700 px-5 py-2 rounded-lg font-semibold hover:bg-gray-300">Cancelar</button>
+          <button type="submit" class="bg-yellow-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-yellow-600">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+// CRUD DE CATEGORÍAS
+
+// 1. Listar categorías al mostrar la sección
+function cargarCategorias() {
+    let token = localStorage.getItem('token');
+    fetch('http://127.0.0.1:8000/api/categorias', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        let tbody = document.getElementById('categorias-tbody');
+        tbody.innerHTML = '';
+        data.forEach((cat, idx) => {
+            let tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="py-2 px-4 border-b">${idx + 1}</td>
+                <td class="py-2 px-4 border-b">${cat.nombre}</td>
+                <td class="py-2 px-4 border-b">${cat.descripcion ?? ''}</td>
+                <td class="py-2 px-4 border-b flex gap-2">
+                  <button onclick="editarCategoria(${cat.id})"
+                    class="bg-yellow-400 hover:bg-yellow-500 text-white px-2 py-1 rounded font-semibold text-xs flex items-center gap-1">
+                    ✏️ Editar
+                  </button>
+                  <button onclick="eliminarCategoria(${cat.id})"
+                    class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded font-semibold text-xs flex items-center gap-1">
+                    🗑️ Eliminar
+                  </button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    });
+}
+
+// Cargar categorías cuando se muestre la sección correspondiente
+document.getElementById('btn-categorias').addEventListener('click', cargarCategorias);
+
+// 2. AGREGAR/EDITAR CATEGORÍA (modal reutilizable)
+let categoriaEditando = null;
+
+function openModalCategoria(id = null) {
+    document.getElementById('modal-categoria').style.display = 'flex';
+    categoriaEditando = null;
+    // Limpiar el form
+    document.getElementById('form-categoria').reset();
+    document.getElementById('form-categoria-titulo').textContent = "Agregar Categoría";
+    if (id) {
+        // Modo edición
+        categoriaEditando = id;
+        let token = localStorage.getItem('token');
+        fetch(`http://127.0.0.1:8000/api/categorias/${id}`, {
+            method: 'GET',
+            headers: { 'Authorization': 'Bearer ' + token }
+        })
+        .then(res => res.json())
+        .then(cat => {
+            document.getElementById('nombre-categoria').value = cat.nombre;
+            document.getElementById('desc-categoria').value = cat.descripcion ?? '';
+            document.getElementById('form-categoria-titulo').textContent = "Editar Categoría";
+        });
+    }
+}
+function closeModalCategoria() {
+    document.getElementById('modal-categoria').style.display = 'none';
+}
+
+// 3. SUBMIT DEL FORMULARIO (agrega o edita según corresponda)
+document.getElementById('form-categoria').onsubmit = function(e) {
+    e.preventDefault();
+    let nombre = document.getElementById('nombre-categoria').value.trim();
+    let descripcion = document.getElementById('desc-categoria').value.trim();
+    let token = localStorage.getItem('token');
+    let url = 'http://127.0.0.1:8000/api/categorias';
+    let method = 'POST';
+
+    // Si está editando, usa PUT y el endpoint con id
+    if (categoriaEditando) {
+        url += '/' + categoriaEditando;
+        method = 'PUT';
+    }
+
+    fetch(url, {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token,
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({ nombre, descripcion })
+    })
+    .then(res => res.json())
+    .then(data => {
+        closeModalCategoria();
+        cargarCategorias();
+        cargarCategoriasSelect();
+        Swal.fire({
+            icon: 'success',
+            title: categoriaEditando ? '¡Categoría actualizada!' : '¡Categoría registrada!',
+            showConfirmButton: false,
+            timer: 1400
+        });
+        categoriaEditando = null;
+    })
+      .catch(() => Swal.fire({
+    icon: 'error',
+    title: 'Error',
+    text: 'Error al guardar la categoría'
+}));
+
+
+};
+
+// 4. ELIMINAR CATEGORÍA
+function eliminarCategoria(id) {
+    Swal.fire({
+        title: '¿Seguro de eliminar esta categoría?',
+        text: 'Esta acción no se puede deshacer.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let token = localStorage.getItem('token');
+            fetch(`http://127.0.0.1:8000/api/categorias/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Accept': 'application/json'
+                }
+            })
+            .then(res => {
+                if (res.ok) {
+                    cargarCategorias();
+                    cargarCategoriasSelect();
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Categoría eliminada!',
+                        showConfirmButton: false,
+                        timer: 1400
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error al eliminar la categoría'
+                    });
+                }
+            });
+        }
+    });
+}
+
+
+// 5. EDITAR CATEGORÍA: abre modal con datos
+function editarCategoria(id) {
+    openModalCategoria(id);
+}
+
+// Para abrir el modal desde el botón “Nueva categoría”
+document.querySelector('[onclick="openModalVenta()"]').onclick = () => openModalVenta();
+</script>
+
+
+        <!-- CLIENTES -->
+<section id="section-clientes" style="display:none;">
+  <div class="bg-white shadow rounded-lg p-6 mb-8">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-2xl font-bold text-green-600">Gestión de Clientes</h2>
+      <button 
+        onclick="openModalCliente()" 
+        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold flex items-center gap-2"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+          viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+        Nuevo cliente
+      </button>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white" id="clientes-table">
+        <thead>
+          <tr>
+            <th class="py-2 px-4 border-b text-left font-semibold">#</th>
+            <th class="py-2 px-4 border-b text-left font-semibold">Nombre</th>
+            <th class="py-2 px-4 border-b text-left font-semibold">Correo</th>
+            <th class="py-2 px-4 border-b text-left font-semibold">Teléfono</th>
+            <th class="py-2 px-4 border-b text-left font-semibold">Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="clientes-tbody">
+          <!-- Aquí van los clientes dinámicamente -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- MODAL AGREGAR/EDITAR CLIENTE -->
+  <div id="modal-cliente" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40" style="display:none;">
+    <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-md">
+      <h3 id="form-cliente-titulo" class="text-2xl font-bold text-green-600 mb-4">Agregar Cliente</h3>
+      <form id="form-cliente" class="flex flex-col gap-4">
+        <div>
+          <label class="block font-semibold mb-1" for="nombre-cliente">Nombre</label>
+          <input id="nombre-cliente" required class="w-full border px-3 py-2 rounded focus:ring focus:ring-green-200" type="text" placeholder="Ej: Juan Pérez"/>
+        </div>
+        <div>
+          <label class="block font-semibold mb-1" for="email-cliente">Correo</label>
+          <input id="email-cliente" required class="w-full border px-3 py-2 rounded focus:ring focus:ring-green-200" type="email" placeholder="Ej: juan@email.com"/>
+        </div>
+        <div>
+          <label class="block font-semibold mb-1" for="telefono-cliente">Teléfono</label>
+          <input id="telefono-cliente" required class="w-full border px-3 py-2 rounded focus:ring focus:ring-green-200" type="text" placeholder="Ej: 999888777"/>
+        </div>
+        <div class="flex justify-end gap-3 mt-2">
+          <button type="button" onclick="closeModalCliente()" class="bg-gray-200 text-gray-700 px-5 py-2 rounded-lg font-semibold hover:bg-gray-300">Cancelar</button>
+          <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+        <!-- VENTAS -->
+        <!-- VENTAS -->
+<!-- Zona de Ventas -->
+<section id="section-ventas" style="display:none;">
+  <div class="bg-white shadow rounded-lg p-6 mb-8">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-2xl font-bold text-pink-500">Gestión de Ventas</h2>
+      <button 
+        onclick="openModalVenta()" 
+        class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-lg font-semibold flex items-center gap-2"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+          viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+        Nueva venta
+      </button>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white rounded-xl shadow" id="ventas-table">
+        <thead>
+        <tr class="bg-pink-50">
+              <th class="py-2 px-4 border-b text-center font-semibold">#</th>
+              <th class="py-2 px-4 border-b font-semibold">Trabajador</th>
+              <th class="py-2 px-4 border-b font-semibold">Producto(s)</th>
+              <th class="py-2 px-4 border-b text-center font-semibold">Cantidad</th>
+              <th class="py-2 px-4 border-b text-center font-semibold">Total</th>
+              <th class="py-2 px-4 border-b text-center font-semibold">Fecha</th>
+              <th class="py-2 px-4 border-b text-center font-semibold">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="ventas-tbody"></tbody>
+        </table>
+
+    </div>
+  </div>
+  <!-- MODAL -->
+  <!-- MODAL REGISTRAR VENTA (multi-producto) -->
+<div id="modal-venta" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40" style="display:none;">
+  <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-lg">
+    <h3 class="text-2xl font-bold text-pink-500 mb-4">Registrar Venta</h3>
+    <form id="form-venta" class="flex flex-col gap-4" onsubmit="enviarVenta(event)">
+      <div class="flex gap-2">
+        <div class="flex-1">
+          <label class="font-semibold mb-1">Producto</label>
+          <select id="producto-venta" class="w-full border px-3 py-2 rounded" required></select>
+        </div>
+        <div class="w-32">
+          <label class="font-semibold mb-1">Cantidad</label>
+          <input id="cantidad-venta" type="number" min="1" class="w-full border px-3 py-2 rounded" required />
+        </div>
+        <div class="flex items-end">
+          <button id="btn-agregar-producto" type="button" onclick="agregarProductoVenta()" class="bg-pink-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-pink-600">Agregar</button>
+        </div>
+      </div>
+      <!-- Tabla de productos agregados -->
+      <div>
+        <table class="min-w-full bg-white mt-2 border" id="tabla-productos-venta">
+          <thead>
+            <tr>
+              <th class="py-2 px-3 border">Producto</th>
+              <th class="py-2 px-3 border">Cantidad</th>
+              <th class="py-2 px-3 border">Acciones</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <!-- Fecha -->
+      <div>
+        <label class="font-semibold mb-1">Fecha</label>
+        <input id="fecha-venta" type="date" class="w-full border px-3 py-2 rounded" required />
+      </div>
+      <div class="flex justify-end gap-3 mt-2">
+        <button type="button" onclick="closeModalVenta()" class="bg-gray-200 text-gray-700 px-5 py-2 rounded-lg font-semibold hover:bg-gray-300">Cancelar</button>
+        <button type="submit" class="bg-pink-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-pink-600">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+</section>
+
+<script>
+  // Modal mostrar/ocultar
+  function openModalVenta() {
+    document.getElementById('modal-venta').style.display = 'flex';
+  }
+  function closeModalVenta() {
+    document.getElementById('modal-venta').style.display = 'none';
+  }
+  // Simulación de envío
+  document.getElementById('form-venta').onsubmit = function(e) {
+  e.preventDefault();
+
+  let fecha = document.getElementById('fecha-venta').value;
+  let token = localStorage.getItem('token');
+  let usuario = JSON.parse(localStorage.getItem('usuario'));
+
+  if (!usuario || !usuario.id) {
+    alert("No se encontró el usuario logueado.");
+    return;
+  }
+  if (productosVenta.length === 0) {
+    alert("Agrega al menos un producto a la venta");
+    return;
+  }
+
+  let body = {
+    usuario_id: usuario.id,
+    fecha: fecha,
+    detalles: productosVenta.map(p => ({
+      producto_id: p.producto_id,
+      cantidad: p.cantidad
+    }))
+  };
+
+  fetch('http://127.0.0.1:8000/api/ventas', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token,
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify(body)
+  })
+  .then(res => res.json())
+  .then(data => {
+    closeModalVenta();
+    cargarVentas();
+        Swal.fire({
+        icon: 'success',
+        title: '¡Venta registrada!',
+        showConfirmButton: false,
+        timer: 1400
+    });
+
+    document.getElementById('form-venta').reset();
+    productosVenta = [];
+    renderTablaProductosVenta(); // limpia la tabla de productos agregados
+  })
+     .catch(() => Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error al registrar venta'
+    }));
+
+};
+
+
+</script>
+
+        <!-- REPORTES -->
+        <!-- REPORTES -->
+<section id="section-reportes" style="display:none;">
+  <div class="bg-white shadow rounded-lg p-6 mb-8">
+    <h2 class="text-2xl font-bold mb-6 text-purple-500">Reportes</h2>
+
+    <!-- Resumen general -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+      <!-- Reporte de ventas -->
+      <div class="bg-purple-50 rounded-lg p-6 shadow-md">
+        <h3 class="text-lg font-bold text-purple-700 mb-2">Resumen de Ventas</h3>
+        <p class="text-gray-700 mb-4">Total ventas realizadas: <span class="font-semibold text-purple-700">34</span></p>
+        <p class="text-gray-700 mb-4">Monto total vendido: <span class="font-semibold text-purple-700">S/ 78,400.00</span></p>
+        <table class="min-w-full bg-white text-sm rounded">
+          <thead>
+            <tr>
+              <th class="py-2 px-3 border-b text-left font-semibold">Fecha</th>
+              <th class="py-2 px-3 border-b text-left font-semibold">Cliente</th>
+              <th class="py-2 px-3 border-b text-left font-semibold">Monto</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="py-2 px-3 border-b">01/06/2025</td>
+              <td class="py-2 px-3 border-b">Carlos López</td>
+              <td class="py-2 px-3 border-b">S/ 2,550.00</td>
+            </tr>
+            <tr>
+              <td class="py-2 px-3 border-b">30/05/2025</td>
+              <td class="py-2 px-3 border-b">María Torres</td>
+              <td class="py-2 px-3 border-b">S/ 1,850.00</td>
+            </tr>
+            <tr>
+              <td class="py-2 px-3 border-b">27/05/2025</td>
+              <td class="py-2 px-3 border-b">Luis Gómez</td>
+              <td class="py-2 px-3 border-b">S/ 900.00</td>
+            </tr>
+            <!-- Más filas de ejemplo -->
+          </tbody>
+        </table>
+      </div>
+      <!-- Reporte de inventario -->
+      <div class="bg-yellow-50 rounded-lg p-6 shadow-md">
+        <h3 class="text-lg font-bold text-yellow-700 mb-2">Resumen de Inventario</h3>
+        <p class="text-gray-700 mb-4">Productos en stock: <span class="font-semibold text-yellow-700">120</span></p>
+        <p class="text-gray-700 mb-4">Categorías: <span class="font-semibold text-yellow-700">7</span></p>
+        <table class="min-w-full bg-white text-sm rounded">
+          <thead>
+            <tr>
+              <th class="py-2 px-3 border-b text-left font-semibold">Producto</th>
+              <th class="py-2 px-3 border-b text-left font-semibold">Stock</th>
+              <th class="py-2 px-3 border-b text-left font-semibold">Categoría</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="py-2 px-3 border-b">Laptop HP 14"</td>
+              <td class="py-2 px-3 border-b">13</td>
+              <td class="py-2 px-3 border-b">Laptops</td>
+            </tr>
+            <tr>
+              <td class="py-2 px-3 border-b">Mouse Logitech</td>
+              <td class="py-2 px-3 border-b">25</td>
+              <td class="py-2 px-3 border-b">Accesorios</td>
+            </tr>
+            <tr>
+              <td class="py-2 px-3 border-b">Monitor Samsung 24"</td>
+              <td class="py-2 px-3 border-b">8</td>
+              <td class="py-2 px-3 border-b">Monitores</td>
+            </tr>
+            <!-- Más filas de ejemplo -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+      </main>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+  <script>
+    function showSection(section) {
+      // Oculta todas las secciones
+      ['inicio','productos','categorias','clientes','ventas','reportes'].forEach(id => {
+        document.getElementById('section-' + id).style.display = 'none';
+        document.getElementById('btn-' + id).className = document.getElementById('btn-' + id).className.replace('bg-blue-50 text-blue-700 font-semibold','text-gray-700');
+      });
+      // Muestra la sección seleccionada
+      document.getElementById('section-' + section).style.display = 'block';
+      document.getElementById('btn-' + section).className = document.getElementById('btn-' + section).className.replace('text-gray-700','bg-blue-50 text-blue-700 font-semibold');
+      // Cambia el título
+      const titles = {
+        'inicio': 'Panel de Control',
+        'productos': 'Gestión de Productos',
+        'categorias': 'Gestión de Categorías',
+        'clientes': 'Gestión de Clientes',
+        'ventas': 'Gestión de Ventas',
+        'reportes': 'Reportes'
+      };
+      document.getElementById('main-title').textContent = titles[section];
+    }
+  </script>
+  <script>
+let accessToken = localStorage.getItem('access_token'); // El token lo puedes guardar al hacer login
+
+// Al cargar el dashboard, carga productos automáticamente si es sección productos
+document.addEventListener('DOMContentLoaded', function () {
+    // Si quieres que se muestre productos al entrar, descomenta:
+    // showSection('productos');
+    cargarProductos();
+});
+
+// CARGAR PRODUCTOS
+function cargarProductos() {
+    fetch('http://127.0.0.1:8000/api/productos', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            // 'Authorization': 'Bearer ' + accessToken, // No es necesario para GET si tu ruta no es protegida
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        let tbody = document.getElementById('productos-tbody');
+        tbody.innerHTML = '';
+        data.forEach((prod, idx) => {
+            let tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="py-2 px-4 border-b">${idx + 1}</td>
+                <td class="py-2 px-4 border-b">${prod.nombre}</td>
+                <td class="py-2 px-4 border-b">${prod.descripcion ?? ''}</td>
+                <td class="py-2 px-4 border-b">${prod.categoria ? prod.categoria.nombre : '-'}</td>
+                <td class="py-2 px-4 border-b">S/ ${parseFloat(prod.precio).toFixed(2)}</td>
+                <td class="py-2 px-4 border-b">${prod.stock}</td>
+                <td class="py-2 px-4 border-b flex gap-2">
+                  <button onclick="editarProducto(${prod.id})"
+                    class="bg-yellow-400 hover:bg-yellow-500 text-white px-2 py-1 rounded font-semibold text-xs flex items-center gap-1">
+                    ✏️ Editar
+                  </button>
+                  <button onclick="eliminarProducto(${prod.id})"
+                    class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded font-semibold text-xs flex items-center gap-1">
+                    🗑️ Eliminar
+                  </button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    });
+}
+
+
+let productoEditandoId = null;
+let categoria_id = document.getElementById('categoria-producto').value;
+
+
+// AGREGAR PRODUCTO (con modal)
+document.getElementById('form-producto').onsubmit = function(e) {
+    e.preventDefault();
+    let nombre = document.getElementById('nombre-producto').value.trim();
+    let descripcion = document.getElementById('desc-producto').value.trim();
+    let precio = document.getElementById('precio-producto').value;
+    let stock = document.getElementById('stock-producto').value;
+    let categoria_id = document.getElementById('categoria-producto').value;
+    let token = localStorage.getItem('token');
+
+    fetch('http://127.0.0.1:8000/api/productos', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token,
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            nombre,
+            descripcion,
+            precio,
+            stock,
+            categoria_id
+        })
+    })
+    .then(async res => {
+        if (!res.ok) {
+            // Si la respuesta tiene error, muestra SweetAlert2 de error
+            let error = await res.json();
+            throw new Error(error.message || 'Error al registrar producto');
+        }
+        return res.json();
+    })
+    .then(data => {
+        closeModalProducto();
+        cargarProductos();
+        cargarCategoriasSelect();
+        Swal.fire({
+            icon: 'success',
+            title: '¡Producto registrado!',
+            showConfirmButton: false,
+            timer: 1400
+        });
+        document.getElementById('form-producto').reset();
+    })
+    .catch(err => {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: err.message || 'No se pudo registrar el producto'
+        });
+    });
+};
+
+
+// ELIMINAR PRODUCTO
+function eliminarProducto(id) {
+    Swal.fire({
+        title: '¿Seguro de eliminar este producto?',
+        text: 'Esta acción no se puede deshacer.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let token = localStorage.getItem('token');
+            fetch(`http://127.0.0.1:8000/api/productos/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Accept': 'application/json'
+                }
+            })
+            .then(res => {
+                if(res.ok){
+                    cargarProductos();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Producto eliminado',
+                        showConfirmButton: false,
+                        timer: 1200
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error al eliminar producto'
+                    });
+                }
+            });
+        }
+    });
+}
+
+
+
+
+// ------ OPCIONAL: EDITAR PRODUCTO (solo base, te lo dejo estructurado) ------
+
+
+// EDITAR PRODUCTO (abrir modal con datos cargados)
+function editarProducto(id) {
+    let token = localStorage.getItem('token');
+    productoEditandoId = id;
+    fetch(`http://127.0.0.1:8000/api/productos/${id}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + token,
+            'Accept': 'application/json'
+        }
+    })
+    .then(res => res.json())
+    .then(prod => {
+        document.getElementById('nombre-producto').value = prod.nombre ?? '';
+        document.getElementById('desc-producto').value = prod.descripcion ?? '';
+        document.getElementById('precio-producto').value = prod.precio ?? '';
+        document.getElementById('stock-producto').value = prod.stock ?? '';
+        openModalProducto();
+    });
+}
+
+// --------- FIN CRUD ---------
+
+// Utiliza el showSection como ya tienes para navegación de las secciones
+</script>
+
+<script>
+  // Mostrar nombre de usuario en el sidebar
+  document.addEventListener('DOMContentLoaded', function () {
+    const usuario = JSON.parse(localStorage.getItem('usuario'));
+    if (usuario && usuario.nombre) {
+      document.getElementById('sidebar-usuario-nombre').textContent = usuario.nombre;
+    }
+  });
+
+  // Función para cerrar sesión
+  function logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
+    window.location.href = '/loginusuarios.html'; // Cambia si tu login tiene otro nombre
+  }
+</script>
+
+<script>
+// CRUD DE CLIENTES
+
+// 1. Listar clientes al mostrar la sección
+function cargarClientes() {
+    let token = localStorage.getItem('token');
+    fetch('http://127.0.0.1:8000/api/clientes', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        let tbody = document.getElementById('clientes-tbody');
+        tbody.innerHTML = '';
+        data.forEach((cli, idx) => {
+            let tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="py-2 px-4 border-b">${idx + 1}</td>
+                <td class="py-2 px-4 border-b">${cli.nombre}</td>
+                <td class="py-2 px-4 border-b">${cli.email}</td>
+                <td class="py-2 px-4 border-b">${cli.telefono ?? ''}</td>
+                <td class="py-2 px-4 border-b flex gap-2">
+                  <button onclick="editarCliente(${cli.id})"
+                    class="bg-yellow-400 hover:bg-yellow-500 text-white px-2 py-1 rounded font-semibold text-xs flex items-center gap-1">
+                    ✏️ Editar
+                  </button>
+                  <button onclick="eliminarCliente(${cli.id})"
+                    class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded font-semibold text-xs flex items-center gap-1">
+                    🗑️ Eliminar
+                  </button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    });
+}
+
+// 2. AGREGAR/EDITAR CLIENTE (modal reutilizable)
+let clienteEditando = null;
+
+function openModalCliente(id = null) {
+    document.getElementById('modal-cliente').style.display = 'flex';
+    clienteEditando = null;
+    document.getElementById('form-cliente').reset();
+    document.getElementById('form-cliente-titulo').textContent = "Registrar Cliente";
+    if (id) {
+        // Modo edición
+        clienteEditando = id;
+        let token = localStorage.getItem('token');
+        fetch(`http://127.0.0.1:8000/api/clientes/${id}`, {
+            method: 'GET',
+            headers: { 'Authorization': 'Bearer ' + token }
+        })
+        .then(res => res.json())
+        .then(cli => {
+            document.getElementById('nombre-cliente').value = cli.nombre;
+            document.getElementById('email-cliente').value = cli.email;
+            document.getElementById('telefono-cliente').value = cli.telefono ?? '';
+            document.getElementById('form-cliente-titulo').textContent = "Editar Cliente";
+        });
+    }
+}
+function closeModalCliente() {
+    document.getElementById('modal-cliente').style.display = 'none';
+}
+
+// 3. SUBMIT DEL FORMULARIO (agrega o edita según corresponda)
+document.getElementById('form-cliente').onsubmit = function(e) {
+    e.preventDefault();
+    let nombre = document.getElementById('nombre-cliente').value.trim();
+    let email = document.getElementById('email-cliente').value.trim();
+    let telefono = document.getElementById('telefono-cliente').value.trim();
+    let token = localStorage.getItem('token');
+    let url = 'http://127.0.0.1:8000/api/clientes';
+    let method = 'POST';
+
+    if (clienteEditando) {
+        url += '/' + clienteEditando;
+        method = 'PUT';
+    }
+
+    fetch(url, {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token,
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({ nombre, email, telefono })
+    })
+    .then(res => res.json())
+    .then(data => {
+        closeModalCliente();
+        cargarClientes();
+        Swal.fire({
+            icon: 'success',
+            title: clienteEditando ? '¡Cliente actualizado!' : '¡Cliente registrado!',
+            showConfirmButton: false,
+            timer: 1400
+        });
+
+        clienteEditando = null;
+    })
+          .catch(() => Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error al guardar el cliente'
+      }));
+
+};
+
+// 4. ELIMINAR CLIENTE
+function eliminarCliente(id) {
+    Swal.fire({
+        title: '¿Seguro de eliminar este cliente?',
+        text: 'Esta acción no se puede deshacer.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let token = localStorage.getItem('token');
+            fetch(`http://127.0.0.1:8000/api/clientes/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Accept': 'application/json'
+                }
+            })
+            .then(res => {
+                if (res.ok) {
+                    cargarClientes();
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Cliente eliminado!',
+                        showConfirmButton: false,
+                        timer: 1400
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error al eliminar cliente'
+                    });
+                }
+            });
+        }
+    });
+}
+
+
+// 5. EDITAR CLIENTE: abre modal con datos
+function editarCliente(id) {
+    openModalCliente(id);
+}
+
+// Al mostrar la sección de clientes, cargar la lista
+document.getElementById('btn-clientes').addEventListener('click', cargarClientes);
+
+</script>
+
+<script>
+  // -------- CRUD DE VENTAS ADAPTADO A TU BACKEND --------
+
+// === CRUD DE VENTAS ===
+
+// 1. Listar ventas al mostrar la sección
+// 1. Cargar ventas y mostrarlas en tabla
+function cargarVentas() {
+    let token = localStorage.getItem('token');
+    fetch('http://127.0.0.1:8000/api/ventas', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        let tbody = document.getElementById('ventas-tbody');
+        tbody.innerHTML = '';
+        data.forEach((venta, idx) => {
+            // Trabajador (usuario)
+            let trabajador = venta.usuario ? venta.usuario.nombre : '-';
+            // Productos vendidos (nombres separados por coma)
+            let productos = venta.detalle_ventas && venta.detalle_ventas.length > 0
+                ? venta.detalle_ventas.map(det => det.producto?.nombre || '').join(', ')
+                : '-';
+            // Cantidad total de productos vendidos
+            let cantidad = venta.detalle_ventas && venta.detalle_ventas.length > 0
+                ? venta.detalle_ventas.reduce((sum, det) => sum + (parseInt(det.cantidad) || 0), 0): 0;
+            // Total y fecha
+            let total = venta.total ? `S/ ${parseFloat(venta.total).toFixed(2)}` : '-';
+            let fecha = venta.fecha || '-';
+
+            let tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="py-2 px-4 border-b text-center">${idx + 1}</td>
+                <td class="py-2 px-4 border-b text-center">${trabajador}</td>
+                <td class="py-2 px-4 border-b text-center">${productos}</td>
+                <td class="py-2 px-4 border-b text-center">${cantidad}</td>
+                <td class="py-2 px-4 border-b text-center">${total}</td>
+                <td class="py-2 px-4 border-b text-center">${fecha}</td>
+                <td class="py-2 px-4 border-b text-center flex justify-center gap-2">
+                  <button onclick="visualizarVenta(${venta.id})"
+                    class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded font-semibold text-xs flex items-center gap-1">
+                    👁️ Visualizar
+                  </button>
+                  <button onclick="imprimirBoleta(${venta.id})" class="bg-green-500 text-white px-2 py-1 rounded font-semibold text-xs flex items-center gap-1">🖨️ Imprimir</button>
+                  <button onclick="eliminarVenta(${venta.id})"
+                    class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded font-semibold text-xs flex items-center gap-1">
+                    🗑️ Eliminar
+                  </button>
+                  
+                </td>
+
+            `;
+            tbody.appendChild(tr);
+        });
+    });
+}
+
+// 2. Llama a cargarVentas() al mostrar la sección de ventas
+document.getElementById('btn-ventas').addEventListener('click', cargarVentas);
+
+// 3. Eliminar venta
+function eliminarVenta(id) {
+    Swal.fire({
+        title: '¿Seguro de eliminar esta venta?',
+        text: 'Esta acción no se puede deshacer.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let token = localStorage.getItem('token');
+            fetch(`http://127.0.0.1:8000/api/ventas/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Accept': 'application/json'
+                }
+            })
+            .then(res => {
+                if (res.ok) {
+                    cargarVentas();
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Venta eliminada!',
+                        showConfirmButton: false,
+                        timer: 1400
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error al eliminar venta'
+                    });
+                }
+            });
+        }
+    });
+}
+
+
+function cargarProductosVenta() {
+    let token = localStorage.getItem('token');
+    fetch('http://127.0.0.1:8000/api/productos', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        let select = document.getElementById('producto-venta');
+        select.innerHTML = '<option value="">Selecciona un producto</option>';
+        data.forEach(prod => {
+            select.innerHTML += `<option value="${prod.id}">${prod.nombre}</option>`;
+        });
+    })
+    .catch(() => {
+        alert('Error al cargar productos');
+    });
+}
+
+function openModalVenta() {
+    cargarProductosVenta();
+    // aquí el código para mostrar el modal
+    document.getElementById('modal-venta').style.display = 'flex'; // o el método que uses
+    // limpiar campos si es necesario
+    document.getElementById('form-venta').reset();
+}
+
+let productosVenta = []; // Lista temporal para productos agregados
+
+function openModalVenta() {
+  document.getElementById('modal-venta').style.display = 'flex';
+  productosVenta = [];
+  renderTablaProductosVenta();
+  // Limpia los campos
+  document.getElementById('cantidad-venta').value = 1;
+  document.getElementById('fecha-venta').value = '';
+  // Carga productos al select
+  cargarProductosVenta();
+}
+
+function closeModalVenta() {
+  document.getElementById('modal-venta').style.display = 'none';
+}
+
+// Llenar select de productos
+function cargarProductosVenta() {
+  let select = document.getElementById('producto-venta');
+  select.innerHTML = '';
+  fetch('http://127.0.0.1:8000/api/productos')
+    .then(res => res.json())
+    .then(productos => {
+      productos.forEach(prod => {
+        let opt = document.createElement('option');
+        opt.value = prod.id;
+        opt.text = prod.nombre;
+        select.appendChild(opt);
+      });
+    });
+}
+
+// Agregar producto al "carrito" de la venta
+function agregarProductoVenta() {
+  let select = document.getElementById('producto-venta');
+  let cantidad = parseInt(document.getElementById('cantidad-venta').value);
+  if (!select.value || cantidad < 1) return;
+
+  // Ver si ya está el producto, suma la cantidad
+  let idx = productosVenta.findIndex(p => p.producto_id == select.value);
+  if (idx >= 0) {
+    productosVenta[idx].cantidad += cantidad;
+  } else {
+    productosVenta.push({
+      producto_id: parseInt(select.value),
+      nombre: select.options[select.selectedIndex].text,
+      cantidad: cantidad
+    });
+  }
+  renderTablaProductosVenta();
+  document.getElementById('cantidad-venta').value = 1;
+}
+
+// Renderiza tabla de productos agregados
+function renderTablaProductosVenta() {
+  let tbody = document.querySelector('#tabla-productos-venta tbody');
+  tbody.innerHTML = '';
+  productosVenta.forEach((item, i) => {
+    let tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="py-1 px-2 border">${item.nombre}</td>
+      <td class="py-1 px-2 border text-center">${item.cantidad}</td>
+      <td class="py-1 px-2 border text-center">
+        <button onclick="quitarProductoVenta(${i})" class="bg-red-500 text-white px-2 py-1 rounded">Quitar</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// Quitar producto del "carrito"
+function quitarProductoVenta(idx) {
+  productosVenta.splice(idx, 1);
+  renderTablaProductosVenta();
+}
+
+// Submit de la venta (envía todos los productos)
+function enviarVenta(e) {
+  e.preventDefault();
+  if (productosVenta.length === 0) return alert('Agrega al menos un producto.');
+  let fecha = document.getElementById('fecha-venta').value;
+  let usuario = JSON.parse(localStorage.getItem('usuario'));
+  let token = localStorage.getItem('token');
+  // Formatea los detalles como espera el backend
+  let detalles = productosVenta.map(p => ({ producto_id: p.producto_id, cantidad: p.cantidad }));
+
+  fetch('http://127.0.0.1:8000/api/ventas', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify({
+      usuario_id: usuario.id,
+      fecha: fecha,
+      detalles: detalles
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    closeModalVenta();
+    cargarVentas();
+    Swal.fire({
+    icon: 'success',
+    title: '¡Venta registrada!',
+    showConfirmButton: false,
+    timer: 1400
+});
+
+  })
+  .catch(() => Swal.fire({
+    icon: 'error',
+    title: 'Error',
+    text: 'Error al registrar venta'
+}));
+
+}
+
+function visualizarVenta(id) {
+    let token = localStorage.getItem('token');
+    fetch('http://127.0.0.1:8000/api/ventas/' + id, {
+        headers: { 'Authorization': 'Bearer ' + token }
+    })
+    .then(res => res.json())
+    .then(venta => {
+        document.getElementById('boleta-numero').textContent = venta.id;
+        document.getElementById('boleta-cliente').textContent = venta.usuario ? venta.usuario.nombre : '-';
+        document.getElementById('boleta-fecha').textContent = venta.fecha || '-';
+        document.getElementById('boleta-total').textContent = 'S/ ' + parseFloat(venta.total).toFixed(2);
+
+        // Renderiza los productos
+        let filas = '';
+        (venta.detalle_ventas || []).forEach(det => {
+            filas += `
+                <tr>
+                    <td class="px-2">${det.producto?.nombre || '-'}</td>
+                    <td class="text-center">${det.cantidad}</td>
+                    <td class="text-center">S/ ${parseFloat(det.precio_unitario).toFixed(2)}</td>
+                    <td class="text-center">S/ ${parseFloat(det.subtotal).toFixed(2)}</td>
+                </tr>
+            `;
+        });
+        document.getElementById('boleta-productos').innerHTML = filas;
+
+        document.getElementById('modal-boleta').style.display = 'flex';
+    });
+}
+
+
+function mostrarModalBoleta(html) {
+    document.getElementById('modal-boleta').style.display = 'flex';
+}
+function cerrarModalBoleta() {
+    document.getElementById('modal-boleta').style.display = 'none';
+}
+
+
+</script>
+
+
+<!-- Modal para la boleta -->
+<!-- Modal para Boleta de Venta -->
+<div id="modal-boleta" class="fixed inset-0 z-50 bg-black/40 flex items-center justify-center" style="display:none;">
+  <div id="modal-boleta-content" class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative print:w-[350px]">
+    <!-- Logo y empresa -->
+    <div class="flex flex-col items-center mb-4">
+      <img src="/img/logo.png" alt="Logo" class="w-16 h-16 mb-2 print:hidden">
+      <h2 class="text-xl font-bold text-pink-600">INNOVA NEGOCIOS</h2>
+      <span class="text-xs text-gray-500">RUC: 12345678901</span>
+      <span class="text-xs text-gray-500">Jr. Los Negocios 123, Lima</span>
+      <hr class="my-2 w-full border-gray-200" />
+    </div>
+
+    <!-- Info boleta -->
+    <div class="mb-2 text-center">
+      <span class="font-semibold text-lg">Boleta de Venta #<span id="boleta-numero"></span></span>
+    </div>
+    <div class="mb-2">
+      <b>Cliente/Trabajador:</b> <span id="boleta-cliente"></span>
+    </div>
+    <div class="mb-4">
+      <b>Fecha:</b> <span id="boleta-fecha"></span>
+    </div>
+
+    <!-- Tabla productos -->
+    <table class="w-full mb-4 border">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="py-1 text-left px-2">Producto</th>
+          <th class="py-1 text-center px-2">Cant</th>
+          <th class="py-1 text-center px-2">P. Unitario</th>
+          <th class="py-1 text-center px-2">Subtotal</th>
+        </tr>
+      </thead>
+      <tbody id="boleta-productos"></tbody>
+    </table>
+
+    <div class="text-right mb-4">
+      <span class="text-lg font-bold">Total: <span id="boleta-total"></span></span>
+    </div>
+
+    <div class="flex justify-end gap-2 print:hidden">
+      <button onclick="window.print()" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">Imprimir</button>
+      <button onclick="cerrarModalBoleta()" class="bg-gray-300 hover:bg-gray-400 text-black px-3 py-1 rounded">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+function closeModalBoleta() {
+    document.getElementById('modal-boleta').style.display = 'none';
+}
+
+//Funcion para imprimir la boleta
+function imprimirBoleta(id) {
+  let token = localStorage.getItem('token');
+  fetch('http://127.0.0.1:8000/api/ventas/' + id, {
+    headers: { 'Authorization': 'Bearer ' + token }
+  })
+  .then(res => res.json())
+  .then(venta => {
+    // Construye el HTML igual que en el modal
+    let detalles = venta.detalle_ventas || [];
+    let filas = detalles.map(det => `
+      <tr>
+        <td>${det.producto?.nombre || '-'}</td>
+        <td>${det.cantidad}</td>
+        <td>S/ ${parseFloat(det.precio_unitario).toFixed(2)}</td>
+        <td>S/ ${parseFloat(det.subtotal).toFixed(2)}</td>
+      </tr>
+    `).join('');
+    let html = `
+      <div>
+        <div style="font-weight:bold;">Boleta de Venta #${venta.id}</div>
+        <div><b>Cliente/Trabajador:</b> ${venta.usuario ? venta.usuario.nombre : '-'}</div>
+        <div><b>Fecha:</b> ${venta.fecha || '-'}</div>
+        <br>
+        <table style="width:100%;border-collapse:collapse;">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>P. Unitario</th>
+              <th>Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>${filas}</tbody>
+        </table>
+        <div style="text-align:right;font-weight:bold;">
+          Total: S/ ${parseFloat(venta.total).toFixed(2)}
+        </div>
+      </div>
+    `;
+
+    // Imprimir solo boleta:
+    let printWin = window.open('', '', 'width=800,height=600');
+    printWin.document.write(`<html><head><title>Imprimir Boleta</title>
+    <style>
+      table { border-collapse:collapse; width:100%; }
+      th,td { border:1px solid #ccc; padding:8px; text-align:center; }
+      th { background:#f3f4f6; }
+      body { font-family:Arial,sans-serif; padding:30px; }
+    </style>
+    </head><body>${html}</body></html>`);
+    printWin.document.close();
+    printWin.focus();
+    printWin.print();
+    printWin.close();
+  });
+}
+
+
+let productosStock = []; // Lista de productos (id, nombre, stock, etc.)
+
+// Carga los productos y su stock al abrir el modal
+function cargarProductosParaVenta() {
+    let token = localStorage.getItem('token');
+    fetch('http://127.0.0.1:8000/api/productos', {
+        headers: { 'Authorization': 'Bearer ' + token }
+    })
+    .then(res => res.json())
+    .then(data => {
+        productosStock = data; // Guarda la lista para validación rápida
+        // Llena el select de productos
+        let select = document.getElementById('producto-venta');
+        select.innerHTML = '<option value="">Seleccione un producto</option>';
+        data.forEach(prod => {
+            select.innerHTML += `<option value="${prod.id}" data-stock="${prod.stock}">${prod.nombre} (Stock: ${prod.stock})</option>`;
+        });
+    });
+}
+
+// Llama a esta función cuando abras el modal de venta
+document.getElementById('btn-ventas').addEventListener('click', cargarProductosParaVenta);
+
+// Validación cuando cambia la cantidad o el producto seleccionado
+document.getElementById('cantidad-venta').addEventListener('input', validarStockDisponible);
+document.getElementById('producto-venta').addEventListener('change', validarStockDisponible);
+
+function validarStockDisponible() {
+    let productoId = document.getElementById('producto-venta').value;
+    let cantidad = parseInt(document.getElementById('cantidad-venta').value) || 0;
+    let producto = productosStock.find(p => p.id == productoId);
+    let btnGuardar = document.getElementById('btn-guardar-venta');
+
+    if (producto && cantidad > producto.stock) {
+        document.getElementById('cantidad-venta').setCustomValidity('No hay suficiente stock disponible.');
+        document.getElementById('cantidad-venta').reportValidity();
+        if (btnGuardar) btnGuardar.disabled = true;
+    } else if (producto && cantidad > 0) {
+        document.getElementById('cantidad-venta').setCustomValidity('');
+        if (btnGuardar) btnGuardar.disabled = false;
+    } else {
+        // Si no hay producto seleccionado o cantidad es 0
+        if (btnGuardar) btnGuardar.disabled = true;
+    }
+}
+
+// Asegúrate de deshabilitar el botón al abrir el modal o al limpiar el form
+document.getElementById('form-venta').addEventListener('reset', function () {
+    let btnGuardar = document.getElementById('btn-guardar-venta');
+    if (btnGuardar) btnGuardar.disabled = true;
+});
+
+// Supón que tienes un array productosStock con los productos y su stock
+// y el id de tu select es 'producto-venta' y la cantidad 'cantidad-venta'
+
+function validarCantidadAgregar() {
+    let select = document.getElementById('producto-venta');
+    let cantidad = parseInt(document.getElementById('cantidad-venta').value) || 0;
+    let productoId = select.value;
+    let producto = productosStock.find(p => p.id == productoId); // O ajusta al nombre de tu array de productos
+    let btnAgregar = document.getElementById('btn-agregar-producto');
+
+    // Busca cuántos ya tienes en el carrito de ese producto
+    let yaEnCarrito = 0;
+    if (window.productosVenta) {
+        let prodEnCarrito = productosVenta.find(p => p.producto_id == productoId);
+        yaEnCarrito = prodEnCarrito ? prodEnCarrito.cantidad : 0;
+    }
+
+    // Stock disponible restante
+    let disponible = producto ? producto.stock - yaEnCarrito : 0;
+
+    // Si lo que se intenta agregar es mayor a lo disponible, deshabilita el botón
+    if (!productoId || cantidad < 1 || cantidad > disponible) {
+        btnAgregar.disabled = true;
+    } else {
+        btnAgregar.disabled = false;
+    }
+}
+
+document.getElementById('producto-venta').addEventListener('change', validarCantidadAgregar);
+document.getElementById('cantidad-venta').addEventListener('input', validarCantidadAgregar);
+
+// Después de agregar o quitar del carrito:
+validarCantidadAgregar();
+
+
+function puedeAgregarProducto() {
+    let select = document.getElementById('producto-venta');
+    let cantidad = parseInt(document.getElementById('cantidad-venta').value) || 0;
+    let productoId = parseInt(select.value);
+
+    // Busca producto en stock
+    let prodStock = productosStock.find(p => p.id === productoId);
+    if (!prodStock) return false;
+
+    // Cuánto hay ya en carrito de ese producto
+    let enCarrito = 0;
+    let prodCarrito = productosVenta.find(p => p.producto_id === productoId);
+    if (prodCarrito) enCarrito = prodCarrito.cantidad;
+
+    // ¿Supera el stock?
+    if ((cantidad + enCarrito) > prodStock.stock || cantidad < 1) {
+        return false;
+    }
+    return true;
+}
+
+function actualizarEstadoBotonAgregar() {
+    document.getElementById('btn-agregar-producto').disabled = !puedeAgregarProducto();
+}
+
+document.getElementById('producto-venta').addEventListener('change', actualizarEstadoBotonAgregar);
+document.getElementById('cantidad-venta').addEventListener('input', actualizarEstadoBotonAgregar);
+
+
+
+//Panel principal
+function actualizarContadoresDashboard() {
+    // Productos
+    fetch('http://127.0.0.1:8000/api/productos', {
+        headers: { 'Accept': 'application/json' }
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById('contador-productos').textContent = data.length;
+    });
+
+    // Ventas
+    fetch('http://127.0.0.1:8000/api/ventas', {
+        headers: { 
+            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            'Accept': 'application/json'
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById('contador-ventas').textContent = data.length;
+    });
+
+    // Clientes
+    fetch('http://127.0.0.1:8000/api/clientes', {
+        headers: { 
+            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            'Accept': 'application/json'
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById('contador-clientes').textContent = data.length;
+    });
+
+    // Reportes (si lo quieres dinámico, aquí lo pones. Si es fijo, déjalo como está.)
+    document.getElementById('contador-reportes').textContent = 5;
+}
+
+document.addEventListener('DOMContentLoaded', actualizarContadoresDashboard);
+
+
+// Llenar el select de categorías al cargar
+function cargarCategoriasSelect() {
+  fetch('http://127.0.0.1:8000/api/categorias')
+    .then(res => res.json())
+    .then(categorias => {
+      const select = document.getElementById('categoria-producto');
+      select.innerHTML = '<option value="">Seleccione una categoría</option>';
+      categorias.forEach(cat => {
+        select.innerHTML += `<option value="${cat.id}">${cat.nombre}</option>`;
+      });
+    });
+}
+document.addEventListener('DOMContentLoaded', cargarCategoriasSelect);
+
+
+
+</script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Innova Negocios - Login / Registro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a8fe3 0%, #fb9d5c 80%, #6d49b8 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
+      background: rgba(255,255,255,0.9);
+      border-radius: 20px;
+      box-shadow: 0 6px 36px rgba(0,0,0,0.13);
+      width: 340px;
+      padding: 32px 24px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .logo-star {
+      width: 42px; height: 42px;
+    }
+    .logo-text {
+      font-size: 1.8rem;
+      font-family: 'Times New Roman', serif;
+      font-weight: bold;
+      color: #333;
+      letter-spacing: 1px;
+      line-height: 1.1;
+      text-align: left;
+    }
+    .tabs {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      gap: 12px;
+    }
+    .tab {
+      padding: 7px 0;
+      flex: 1;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-weight: bold;
+      color: #888;
+      border-bottom: 2px solid transparent;
+      transition: 0.2s;
+    }
+    .tab.active {
+      color: #1a8fe3;
+      border-bottom: 2.5px solid #1a8fe3;
+    }
+    form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    label {
+      font-weight: 500;
+      color: #333;
+      font-size: 1rem;
+    }
+    .input-group {
+      position: relative;
+      width: 100%;
+      display: flex;
+      align-items: center;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px 38px 10px 12px;
+      border-radius: 8px;
+      border: 1.4px solid #dedede;
+      font-size: 1rem;
+      background: #f8fafb;
+      transition: border 0.2s;
+    }
+    input:focus {
+      outline: none;
+      border: 1.5px solid #1a8fe3;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      cursor: pointer;
+      color: #aaa;
+      font-size: 1.12rem;
+      user-select: none;
+      z-index: 3;
+    }
+    .btn {
+      background: linear-gradient(90deg, #1a8fe3, #fb9d5c);
+      color: white;
+      padding: 11px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.09rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 7px;
+      box-shadow: 0 2px 10px #e1e1e1a1;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .btn:hover {
+      background: linear-gradient(90deg, #177cc1, #fb7c29);
+      box-shadow: 0 4px 18px #c5c5c58c;
+    }
+    .switch-link {
+      color: #1a8fe3;
+      font-size: 0.98rem;
+      text-align: center;
+      cursor: pointer;
+      margin-top: 2px;
+      text-decoration: underline;
+    }
+    .forgot-link {
+      color: #fb9d5c;
+      font-size: 0.98rem;
+      text-align: right;
+      display: block;
+      text-decoration: underline;
+      margin-top: -12px;
+      margin-bottom: 6px;
+      cursor: pointer;
+    }
+    .legal {
+      font-size: 0.89rem;
+      color: #777;
+      text-align: center;
+      margin-top: -10px;
+    }
+    .home-link {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: #1a8fe3;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 1.08rem;
+      background: rgba(255,255,255,0.7);
+      padding: 5px 14px;
+      border-radius: 7px;
+      box-shadow: 0 2px 8px #e1e1e1a1;
+      transition: background 0.2s;
+    }
+    .home-link:hover {
+      background: #f8fafb;
+      color: #fb9d5c;
+    }
+    @media (max-width: 420px) {
+      .container { width: 98vw; padding: 16px 4vw 22px 4vw; }
+      .logo-text { font-size: 1.1rem;}
+    }
+   input[type="email"],
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  height: 42px;
+  min-height: 42px;
+  max-height: 42px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  border-radius: 8px;
+}
+
+
+
+  </style>
+</head>
+<body>
+  <a class="home-link" href="/">← Volver al inicio</a>
+  <div class="container">
+    <div class="logo">
+      <svg class="logo-star" viewBox="0 0 100 100">
+        <polygon points="50,13 65,41 97,41 71,61 81,92 50,73 19,92 29,61 3,41 35,41"
+          fill="none" stroke="#1a8fe3" stroke-width="6"/>
+      </svg>
+      <span class="logo-text">INNOVA<br>NEGOCIOS</span>
+    </div>
+    <div class="tabs">
+      <button class="tab active" id="tab-login" onclick="showForm('login')">Iniciar sesión</button>
+      <button class="tab" id="tab-register" onclick="showForm('register')">Registrarse</button>
+    </div>
+    <!-- Login Form -->
+    <form id="form-login">
+      <label for="login-email">Correo electrónico</label>
+      <input type="email" id="login-email" placeholder="usuario@correo.com" required>
+      <label for="login-password">Contraseña</label>
+      <div class="input-group">
+        <input type="password" id="login-password" placeholder="Contraseña" required>
+        <span class="toggle-password" onclick="togglePassword('login-password', this)">👁️</span>
+      </div>
+      <a class="forgot-link" href="#">¿Olvidaste tu contraseña?</a>
+      <button type="submit" class="btn">Ingresar</button>
+    </form>
+    <!-- Register Form -->
+    <form id="form-register" style="display:none;">
+      <label for="register-name">Nombre</label>
+      <input type="text" id="register-name" placeholder="Tu nombre" required>
+      <label for="register-email">Correo electrónico</label>
+      <input type="email" id="register-email" placeholder="usuario@correo.com" required>
+      <label for="register-password">Contraseña</label>
+      <div class="input-group">
+        <input type="password" id="register-password" placeholder="Contraseña" required>
+        <span class="toggle-password" onclick="togglePassword('register-password', this)">👁️</span>
+      </div>
+      <button type="submit" class="btn">Crear cuenta</button>
+      <div class="legal">
+        Al registrarte, aceptas nuestros <a href="#" style="color:#1a8fe3;">Términos y Condiciones</a>.
+      </div>
+    </form>
+  </div>
+  <script>
+    function showForm(type) {
+      document.getElementById('form-login').style.display = type === 'login' ? 'flex' : 'none';
+      document.getElementById('form-register').style.display = type === 'register' ? 'flex' : 'none';
+      document.getElementById('tab-login').classList.toggle('active', type === 'login');
+      document.getElementById('tab-register').classList.toggle('active', type === 'register');
+    }
+    function togglePassword(id, el) {
+      const input = document.getElementById(id);
+      input.type = input.type === 'password' ? 'text' : 'password';
+      el.textContent = input.type === 'password' ? '👁️' : '🙈';
+    }
+    document.getElementById('form-login').onsubmit = e => {
+      e.preventDefault();
+      alert('Aquí iría el inicio de sesión (conectar al backend).');
+    };
+    document.getElementById('form-register').onsubmit = e => {
+      e.preventDefault();
+      alert('Aquí iría el registro de usuario (conectar al backend).');
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - Innova Negocios</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(120deg, #2ab1ef 0%, #ffb36b 60%, #8e6be3 100%);
+      display: flex;
+      flex-direction: column;
+    }
+    .navbar {
+      background: rgba(26, 143, 227, 0.92);
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      height: 58px;
+      color: white;
+      box-shadow: 0 2px 14px #14417624;
+      justify-content: space-between;
+    }
+    .logo-navbar {
+      display: flex; align-items: center; gap: 9px;
+    }
+    .logo-navbar svg {
+      width: 36px; height: 36px;
+    }
+    .logo-navbar span {
+      font-family: 'Times New Roman', serif;
+      font-size: 1.25rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    .nav-links {
+      display: flex; gap: 20px;
+    }
+    .nav-link {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      transition: color 0.2s;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    .nav-link:hover {
+      background: #fb9d5c;
+      color: #fff;
+    }
+    .content {
+      flex: 1;
+      padding: 34px 8vw 24px 8vw;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      max-width: 900px;
+      margin: auto;
+    }
+    .title {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      font-size: 1.15rem;
+      color: #444;
+      margin-bottom: 24px;
+    }
+    .card-boxes {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 26px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 18px #afdcfa27;
+      padding: 28px 30px 16px 30px;
+      min-width: 190px;
+      text-align: center;
+      flex: 1 0 180px;
+      margin-bottom: 10px;
+      transition: box-shadow 0.15s;
+    }
+    .card strong { display: block; color: #1a8fe3; font-size: 1.3rem; margin-bottom: 7px;}
+    .card span { color: #666; font-size: 1.02rem;}
+    @media (max-width: 900px) { .content { padding: 20px 2vw; } }
+    @media (max-width: 640px) {
+      .card-boxes { flex-direction: column; gap: 10px; }
+      .content { padding: 10px 2vw;}
+    }
+    @media (max-width: 400px) { .title { font-size: 1.1rem; } }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="logo-navbar">
+      <svg viewBox="0 0 100 100">
+        <polygon points="50,13 65,41 97,41 71,61 81,92 50,73 19,92 29,61 3,41 35,41"
+          fill="none" stroke="#fff" stroke-width="6"/>
+      </svg>
+      <span>INNOVA NEGOCIOS</span>
+    </div>
+    <div class="nav-links">
+      <a href="#" class="nav-link">Catálogo</a>
+      <a href="#" class="nav-link">Carrito</a>
+      <a href="#" class="nav-link">Ventas</a>
+      <a href="#" class="nav-link">Clientes</a>
+      <a href="index.html" class="nav-link" style="background:#fb9d5c;">Salir</a>
+    </div>
+  </div>
+  <div class="content">
+    <div class="title">Bienvenido, Esteban 👋</div>
+    <div class="subtitle">
+      ¡Gestiona tu tienda, productos y ventas fácilmente desde tu panel de control!
+    </div>
+    <div class="card-boxes">
+      <div class="card">
+        <strong>Catálogo</strong>
+        <span>Ver, agregar o editar productos y categorías.</span>
+      </div>
+      <div class="card">
+        <strong>Ventas</strong>
+        <span>Historial, emisión de boletas y reportes.</span>
+      </div>
+      <div class="card">
+        <strong>Clientes</strong>
+        <span>Administra la información de tus clientes.</span>
+      </div>
+      <div class="card">
+        <strong>Carrito</strong>
+        <span>Visualiza y gestiona compras en proceso.</span>
+      </div>
+    </div>
+    <div style="color:#888;font-size:0.98rem;margin-top:36px;">© 2025 Innova Negocios | Dashboard v1.0</div>
+  </div>
+</body>
+</html>
