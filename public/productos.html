@@ -15,17 +15,17 @@
 
 
 <style>
-/* Corrige el color del texto en botones de SweetAlert2 */
+
 .swal2-confirm, .swal2-cancel, .swal2-deny, .swal2-styled {
-    color: #fff !important;        /* Blanco fuerte */
-    background: #2563eb !important; /* Azul, cámbialo si prefieres */
+    color: #fff !important;        
+    background: #2563eb !important; 
     border: none !important;
 }
 .swal2-cancel {
-    background: #64748b !important; /* Gris fuerte para cancelar */
+    background: #64748b !important; 
 }
 .swal2-confirm:focus, .swal2-cancel:focus {
-    outline: 2px solid #fb9d5c !important; /* Para accesibilidad */
+    outline: 2px solid #fb9d5c !important; 
 }
 </style>
 
@@ -55,7 +55,7 @@
   Iniciar sesión / Registrarse
 </button>
 
-<!-- Botón Logout (Cerrar sesión) -->
+<!-- Botón de cerrar sesion -->
 <button id="btn-logout" class="ml-2 px-3 py-2 rounded bg-orange-500 text-white font-bold hover:bg-red-400" style="display:none;">
   Cerrar sesión
 </button>
@@ -128,7 +128,7 @@
     </div>
   </div>
 
-  <!-- Flowbite JS -->
+  <!-- Flowbite  -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
   <script>
     const ENDPOINT = "http://127.0.0.1:8000/api/productos";
@@ -181,7 +181,7 @@
 
   let filtrados = productosData.filter(prod => {
     let catNombre = (prod.categoria && prod.categoria.nombre) ? prod.categoria.nombre : categoriaNombres[prod.categoria_id] || "";
-    // Haz que la comparación de categoría sea insensible a mayúsculas/minúsculas
+
     let nombreMatch = prod.nombre.toLowerCase().includes(busqueda);
     let catMatch = !filtroCat || catNombre.toLowerCase() === filtroCat.toLowerCase();
     let precio = parseFloat(prod.precio);
@@ -217,7 +217,7 @@
         });
     });
 
-    // ----------- CARRITO DE COMPRAS (Flowbite Modal) ----------------
+    //CARRITO DE COMPRAS 
     let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
     function guardarCarrito() {
@@ -246,8 +246,7 @@
       guardarCarrito();
       actualizarCartCount();
       mostrarNotificacion(`${producto.nombre} añadido al carrito`);
-      // Si quieres abrir el modal automáticamente al agregar, descomenta:
-      // document.querySelector('[data-modal-toggle="carrito-modal"]').click();
+      
     }
 
     function mostrarNotificacion(msg) {
@@ -258,14 +257,14 @@
       setTimeout(() => notif.remove(), 2100);
     }
 
-    // Llenar el modal cuando se abra
+   
     document.addEventListener('show.bs.modal', function (event) {
       if (event.target.id === "carrito-modal") {
         renderizarCarritoItems();
       }
     });
 
-    // Si no detecta el evento anterior (CDN), puedes usar esto al hacer clic en el carrito:
+    
     document.querySelector('[data-modal-toggle="carrito-modal"]').addEventListener('click', renderizarCarritoItems);
 
     function renderizarCarritoItems() {
@@ -314,13 +313,13 @@
 
 //Imprimir la boleta para el cliente
 function drawStar(doc, x, y, size, color="#1a8fe3") {
-  // Dibuja una estrella tipo logo (no rellena)
+ 
   const points = [
     [50,13],[65,41],[97,41],[71,61],[81,92],
     [50,73],[19,92],[29,61],[3,41],[35,41]
   ];
   const scaled = points.map(([px,py]) => [
-    x + (px-30)*(size/70),   // Ajusta el X para centrar mejor
+    x + (px-30)*(size/70),   
     y + (py-13)*(size/70)
   ]);
   doc.setDrawColor(color);
@@ -339,23 +338,23 @@ function descargarBoletaPDF(carrito, usuario) {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
 
-  // --- Logo tipo estrella al lado del texto ---
-  // 1. Logo estrella
+
+  // 1. Logo en forma de estrella
   drawStar(doc, 22, 9, 12); // Más arriba y más a la izquierda, tamaño chico
 
-  // 2. Título
+  //  Título
   doc.setFontSize(22);
   doc.setTextColor(26, 143, 227);
   doc.setFont('helvetica', 'bold');
   doc.text('Innova Negocios', 37, 20); // Más a la derecha y un poquito abajo
 
 
-  // --- Fecha ---
+  //  Fecha 
   doc.setFontSize(10);
   doc.setTextColor(60);
   doc.text('Fecha: ' + new Date().toLocaleString(), 15, 32);
 
-  // --- Datos cliente ---
+  //  Datos cliente 
   doc.setFontSize(12);
   doc.setTextColor(60,60,60);
   doc.setFont('helvetica', 'bold');
@@ -368,7 +367,7 @@ function descargarBoletaPDF(carrito, usuario) {
   doc.setFont('helvetica', 'normal');
   doc.text(usuario.email || '', 36, 46);
 
-  // --- Tabla productos ---
+ 
   const items = carrito.map(item => [
     item.nombre,
     item.cantidad,
@@ -383,24 +382,25 @@ function descargarBoletaPDF(carrito, usuario) {
     styles: { fontSize: 12 }
   });
 
-  // --- Total ---
+
   const total = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
   doc.setFontSize(15);
   doc.setTextColor(220, 53, 69);
   doc.setFont('helvetica', 'bold');
   doc.text(`TOTAL: S/ ${total.toFixed(2)}`, 15, doc.lastAutoTable.finalY + 15);
 
-  // --- Descargar PDF ---
+  
   doc.save(`Boleta_InnovaNegocios_${new Date().toISOString().slice(0,10)}.pdf`);
 }
 
 function finalizarCompra() {
   const token = localStorage.getItem('token');
   if (!token) {
-    // Cierra el modal del carrito antes de mostrar la alerta
+    
+    //carrito
     document.querySelector('[data-modal-hide="carrito-modal"]').click();
 
-    // Guarda la intención de regresar al carrito tras login
+    // Guarda    el carrito tras login
     localStorage.setItem('redirigir_despues_login', 'carrito');
 
     setTimeout(() => {
@@ -416,7 +416,7 @@ function finalizarCompra() {
     return;
   }
 
-  // **Genera y descarga la boleta antes de vaciar el carrito**
+  // descarga la boleta
   const usuario = {
   nombre: localStorage.getItem('usuario_nombre') || '',
    email: localStorage.getItem('usuario_email') || '' // O guarda el email cuando hagas login/registro para tenerlo aquí
@@ -447,7 +447,7 @@ function finalizarCompra() {
 
 
 
-//Boton para iniciar sesion
+//iniciar sesion
 document.getElementById('btn-login').addEventListener('click', function() {
     window.location.href = 'loginclientes.html'; 
   });
@@ -458,17 +458,17 @@ document.getElementById('btn-login').addEventListener('click', function() {
 
 
 
-// --- Gestión de login/logout en la página de productos ---
-// ¡No pongas localStorage.setItem aquí, solo en el login!
+//  Gestión de login de productos
+
 
 document.addEventListener('DOMContentLoaded', function() {
   const token = localStorage.getItem('token');
   const btnLogin = document.getElementById('btn-login');
   const btnLogout = document.getElementById('btn-logout');
   const userGreeting = document.getElementById('user-greeting');
-  const nombre = localStorage.getItem('usuario_nombre'); // O el campo que guardaste
+  const nombre = localStorage.getItem('usuario_nombre'); 
 
-  // Mostrar u ocultar botones según login
+  // Mostrar u ocultar botones 
   if (token) {
     if (btnLogin) btnLogin.style.display = 'none';
     if (btnLogout) btnLogout.style.display = '';
@@ -479,14 +479,14 @@ document.addEventListener('DOMContentLoaded', function() {
     if (userGreeting) userGreeting.textContent = '';
   }
 
-  // Evento para redirigir a login
+  // redirigir al login
   if (btnLogin) {
     btnLogin.addEventListener('click', function() {
       window.location.href = 'loginclientes.html';
     });
   }
 
-  // Evento para cerrar sesión (con confirmación pro)
+  //cerrar sesino
   if (btnLogout) {
     btnLogout.addEventListener('click', function() {
       Swal.fire({

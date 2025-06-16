@@ -10,17 +10,17 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
-/* Solución universal para evitar que Tailwind afecte los botones SweetAlert2 */
+
 .swal2-popup .swal2-styled {
-    color: #fff !important; /* blanco para el botón principal */
+    color: #fff !important; 
 }
 .swal2-popup .swal2-styled.swal2-cancel {
-    color: #fff !important; /* blanco también para cancelar */
-    background-color: #3085d6 !important; /* azul de SweetAlert */
+    color: #fff !important; 
+    background-color: #3085d6 !important; 
 }
 .swal2-popup .swal2-styled.swal2-confirm {
     color: #fff !important;
-    background-color: #d33 !important; /* rojo para confirmar (o el color que prefieras) */
+    background-color: #d33 !important; 
 }
 </style>
 
@@ -194,8 +194,8 @@
             <p class="text-gray-700">Selecciona una opción en el menú lateral para comenzar a gestionar productos, ventas, clientes y más.</p>
           </div>
         </section>
-        <!-- PRODUCTOS -->
-        <!-- PRODUCTOS (Solo Interfaz CRUD) -->
+      
+       
 <!-- PRODUCTOS (Solo Interfaz CRUD) -->
 <section id="section-productos" style="display:none;">
   <div class="bg-white shadow rounded-lg p-6 mb-8">
@@ -229,7 +229,7 @@
         <tbody id="productos-tbody">
           <!-- Ejemplo de filas estáticas para mostrar el diseño -->
           
-          <!-- Puedes copiar/pegar este <tr> para más productos de ejemplo -->
+        
         </tbody>
       </table>
     </div>
@@ -277,19 +277,19 @@
 </section>
 
 <script>
-  // Modal mostrar/ocultar
+  
   function openModalProducto() {
     document.getElementById('modal-producto').style.display = 'flex';
   }
   function closeModalProducto() {
     document.getElementById('modal-producto').style.display = 'none';
   }
-  // Simulación de envío
+
   function enviarProducto(event) {
     event.preventDefault();
     closeModalProducto();
     alert("¡Producto registrado (simulación)!");
-    // Aquí podrías limpiar el formulario o agregar lógica.
+
   }
 </script>
 
@@ -391,7 +391,7 @@ function cargarCategorias() {
     });
 }
 
-// Cargar categorías cuando se muestre la sección correspondiente
+// Cargar categorías
 document.getElementById('btn-categorias').addEventListener('click', cargarCategorias);
 
 // 2. AGREGAR/EDITAR CATEGORÍA (modal reutilizable)
@@ -400,11 +400,11 @@ let categoriaEditando = null;
 function openModalCategoria(id = null) {
     document.getElementById('modal-categoria').style.display = 'flex';
     categoriaEditando = null;
-    // Limpiar el form
+   
     document.getElementById('form-categoria').reset();
     document.getElementById('form-categoria-titulo').textContent = "Agregar Categoría";
     if (id) {
-        // Modo edición
+ 
         categoriaEditando = id;
         let token = localStorage.getItem('token');
         fetch(`http://127.0.0.1:8000/api/categorias/${id}`, {
@@ -432,7 +432,7 @@ document.getElementById('form-categoria').onsubmit = function(e) {
     let url = 'http://127.0.0.1:8000/api/categorias';
     let method = 'POST';
 
-    // Si está editando, usa PUT y el endpoint con id
+   
     if (categoriaEditando) {
         url += '/' + categoriaEditando;
         method = 'PUT';
@@ -518,7 +518,7 @@ function editarCategoria(id) {
     openModalCategoria(id);
 }
 
-// Para abrir el modal desde el botón “Nueva categoría”
+
 document.querySelector('[onclick="openModalVenta()"]').onclick = () => openModalVenta();
 </script>
 
@@ -552,7 +552,7 @@ document.querySelector('[onclick="openModalVenta()"]').onclick = () => openModal
           </tr>
         </thead>
         <tbody id="clientes-tbody">
-          <!-- Aquí van los clientes dinámicamente -->
+          
         </tbody>
       </table>
     </div>
@@ -590,7 +590,7 @@ document.querySelector('[onclick="openModalVenta()"]').onclick = () => openModal
 
         <!-- VENTAS -->
         <!-- VENTAS -->
-<!-- Zona de Ventas -->
+
 <section id="section-ventas" style="display:none;">
   <div class="bg-white shadow rounded-lg p-6 mb-8">
     <div class="flex justify-between items-center mb-4">
@@ -626,7 +626,7 @@ document.querySelector('[onclick="openModalVenta()"]').onclick = () => openModal
     </div>
   </div>
   <!-- MODAL -->
-  <!-- MODAL REGISTRAR VENTA (multi-producto) -->
+  
 <div id="modal-venta" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40" style="display:none;">
   <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-lg">
     <h3 class="text-2xl font-bold text-pink-500 mb-4">Registrar Venta</h3>
@@ -644,11 +644,11 @@ document.querySelector('[onclick="openModalVenta()"]').onclick = () => openModal
           <button id="btn-agregar-producto" type="button" onclick="agregarProductoVenta()" class="bg-pink-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-pink-600">Agregar</button>
         </div>
       </div>
-      <!-- En tu modal de venta, agrega esto arriba de los productos: -->
+    
 <div>
   <label class="font-semibold mb-1">Cliente</label>
   <select id="cliente-venta" class="w-full border px-3 py-2 rounded" required>
-    <!-- Se llenará dinámicamente -->
+
   </select>
 </div>
 
@@ -681,12 +681,12 @@ document.querySelector('[onclick="openModalVenta()"]').onclick = () => openModal
 </section>
 
 <script>
-  // Modal mostrar/ocultar
+
  
   function closeModalVenta() {
     document.getElementById('modal-venta').style.display = 'none';
   }
-  // Simulación de envío
+  
   document.getElementById('form-venta').onsubmit = function(e) {
   e.preventDefault();
 
@@ -734,7 +734,7 @@ document.querySelector('[onclick="openModalVenta()"]').onclick = () => openModal
 
     document.getElementById('form-venta').reset();
     productosVenta = [];
-    renderTablaProductosVenta(); // limpia la tabla de productos agregados
+    renderTablaProductosVenta(); 
   })
      .catch(() => Swal.fire({
         icon: 'error',
@@ -747,7 +747,6 @@ document.querySelector('[onclick="openModalVenta()"]').onclick = () => openModal
 
 </script>
 
-        <!-- REPORTES -->
         <!-- REPORTES -->
 <section id="section-reportes" style="display:none;">
   <div class="bg-white shadow rounded-lg p-6 mb-8">
@@ -784,7 +783,7 @@ document.querySelector('[onclick="openModalVenta()"]').onclick = () => openModal
               <td class="py-2 px-3 border-b">Luis Gómez</td>
               <td class="py-2 px-3 border-b">S/ 900.00</td>
             </tr>
-            <!-- Más filas de ejemplo -->
+         
           </tbody>
         </table>
       </div>
@@ -817,7 +816,7 @@ document.querySelector('[onclick="openModalVenta()"]').onclick = () => openModal
               <td class="py-2 px-3 border-b">8</td>
               <td class="py-2 px-3 border-b">Monitores</td>
             </tr>
-            <!-- Más filas de ejemplo -->
+           
           </tbody>
         </table>
       </div>
@@ -831,15 +830,15 @@ document.querySelector('[onclick="openModalVenta()"]').onclick = () => openModal
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
   <script>
     function showSection(section) {
-      // Oculta todas las secciones
+   
       ['inicio','productos','categorias','clientes','ventas','reportes'].forEach(id => {
         document.getElementById('section-' + id).style.display = 'none';
         document.getElementById('btn-' + id).className = document.getElementById('btn-' + id).className.replace('bg-blue-50 text-blue-700 font-semibold','text-gray-700');
       });
-      // Muestra la sección seleccionada
+     
       document.getElementById('section-' + section).style.display = 'block';
       document.getElementById('btn-' + section).className = document.getElementById('btn-' + section).className.replace('text-gray-700','bg-blue-50 text-blue-700 font-semibold');
-      // Cambia el título
+     
       const titles = {
         'inicio': 'Panel de Control',
         'productos': 'Gestión de Productos',
@@ -852,12 +851,10 @@ document.querySelector('[onclick="openModalVenta()"]').onclick = () => openModal
     }
   </script>
   <script>
-let accessToken = localStorage.getItem('access_token'); // El token lo puedes guardar al hacer login
+let accessToken = localStorage.getItem('access_token'); 
 
-// Al cargar el dashboard, carga productos automáticamente si es sección productos
 document.addEventListener('DOMContentLoaded', function () {
-    // Si quieres que se muestre productos al entrar, descomenta:
-    // showSection('productos');
+    
     cargarProductos();
 });
 
@@ -867,7 +864,7 @@ function cargarProductos() {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
-            // 'Authorization': 'Bearer ' + accessToken, // No es necesario para GET si tu ruta no es protegida
+            
         }
     })
     .then(res => res.json())
@@ -926,12 +923,12 @@ document.getElementById('form-producto').onsubmit = function(e) {
     // Si es edición
     if (productoEditandoId) {
         url += '/' + productoEditandoId;
-        // Laravel recomienda POST con _method=PUT para FormData
+       
         formData.append('_method', 'PUT');
     }
 
     fetch(url, {
-        method: 'POST', // Usar POST tanto para crear como para editar con FormData (cuando _method se usa)
+        method: 'POST', 
         headers: {
             'Authorization': 'Bearer ' + token,
             'Accept': 'application/json'
@@ -956,7 +953,7 @@ document.getElementById('form-producto').onsubmit = function(e) {
             timer: 1400
         });
         document.getElementById('form-producto').reset();
-        productoEditandoId = null; // Limpiar el id de edición
+        productoEditandoId = null;
     })
     .catch(err => {
         Swal.fire({
@@ -1012,7 +1009,7 @@ function eliminarProducto(id) {
 
 
 
-// ------ OPCIONAL: EDITAR PRODUCTO (solo base, te lo dejo estructurado) ------
+
 
 
 // EDITAR PRODUCTO (abrir modal con datos cargados)
@@ -1038,7 +1035,7 @@ function editarProducto(id) {
 
 // --------- FIN CRUD ---------
 
-// Utiliza el showSection como ya tienes para navegación de las secciones
+
 </script>
 
 <script>
@@ -1098,7 +1095,7 @@ function cargarClientes() {
     });
 }
 
-// Para la barra de clientes
+
 function cargarClientesVenta() {
   let select = document.getElementById('cliente-venta');
   select.innerHTML = '<option value="">Selecciona un cliente</option>';
@@ -1115,7 +1112,7 @@ function cargarClientesVenta() {
 }
 
 
-//guardando al cliente guardado
+
 function enviarVenta(e) {
   e.preventDefault();
   if (productosVenta.length === 0) return alert('Agrega al menos un producto.');
@@ -1137,7 +1134,7 @@ function enviarVenta(e) {
     },
     body: JSON.stringify({
       usuario_id: usuario.id,
-      cliente_id: clienteId, // <-- IMPORTANTE
+      cliente_id: clienteId, 
       fecha: fecha,
       detalles: detalles
     })
@@ -1168,9 +1165,9 @@ function openModalVenta() {
   document.getElementById('modal-venta').style.display = 'flex';
   productosVenta = [];
   renderTablaProductosVenta();
-  cargarClientesVenta(); // <--- AQUÍ
+  cargarClientesVenta(); // 
   cargarProductosVenta();
-  // Limpia los campos
+ 
   document.getElementById('cantidad-venta').value = 1;
   document.getElementById('fecha-venta').value = '';
 }
@@ -1185,7 +1182,7 @@ function openModalCliente(id = null) {
     document.getElementById('form-cliente').reset();
     document.getElementById('form-cliente-titulo').textContent = "Registrar Cliente";
     if (id) {
-        // Modo edición
+       
         clienteEditando = id;
         let token = localStorage.getItem('token');
         fetch(`http://127.0.0.1:8000/api/clientes/${id}`, {
@@ -1205,7 +1202,7 @@ function closeModalCliente() {
     document.getElementById('modal-cliente').style.display = 'none';
 }
 
-// 3. SUBMIT DEL FORMULARIO (agrega o edita según corresponda)
+
 document.getElementById('form-cliente').onsubmit = function(e) {
     e.preventDefault();
     let nombre = document.getElementById('nombre-cliente').value.trim();
@@ -1221,7 +1218,7 @@ document.getElementById('form-cliente').onsubmit = function(e) {
         method = 'PUT';
     }
 
-    // Construye el objeto a enviar, solo agrega password si no está vacío
+   
     let clienteData = { nombre, email, telefono };
     if (password) {
         clienteData.password = password;
@@ -1258,7 +1255,7 @@ document.getElementById('form-cliente').onsubmit = function(e) {
 };
 
 
-// 4. ELIMINAR CLIENTE
+
 function eliminarCliente(id) {
     Swal.fire({
         title: '¿Seguro de eliminar este cliente?',
@@ -1301,23 +1298,22 @@ function eliminarCliente(id) {
 }
 
 
-// 5. EDITAR CLIENTE: abre modal con datos
+
 function editarCliente(id) {
     openModalCliente(id);
 }
 
-// Al mostrar la sección de clientes, cargar la lista
+
 document.getElementById('btn-clientes').addEventListener('click', cargarClientes);
 
 </script>
 
 <script>
-  // -------- CRUD DE VENTAS ADAPTADO A TU BACKEND --------
+ 
 
 // === CRUD DE VENTAS ===
 
-// 1. Listar ventas al mostrar la sección
-// 1. Cargar ventas y mostrarlas en tabla
+
 function cargarVentas() {
     let token = localStorage.getItem('token');
     fetch('http://127.0.0.1:8000/api/ventas', {
@@ -1332,16 +1328,16 @@ function cargarVentas() {
         let tbody = document.getElementById('ventas-tbody');
         tbody.innerHTML = '';
         data.forEach((venta, idx) => {
-            // Trabajador (usuario)
+          
             let trabajador = venta.usuario ? venta.usuario.nombre : '-';
-            // Productos vendidos (nombres separados por coma)
+       
             let productos = venta.detalle_ventas && venta.detalle_ventas.length > 0
                 ? venta.detalle_ventas.map(det => det.producto?.nombre || '').join(', ')
                 : '-';
-            // Cantidad total de productos vendidos
+         
             let cantidad = venta.detalle_ventas && venta.detalle_ventas.length > 0
                 ? venta.detalle_ventas.reduce((sum, det) => sum + (parseInt(det.cantidad) || 0), 0): 0;
-            // Total y fecha
+         
             let total = venta.total ? `S/ ${parseFloat(venta.total).toFixed(2)}` : '-';
             let fecha = venta.fecha || '-';
 
@@ -1371,10 +1367,10 @@ function cargarVentas() {
     });
 }
 
-// 2. Llama a cargarVentas() al mostrar la sección de ventas
+
 document.getElementById('btn-ventas').addEventListener('click', cargarVentas);
 
-// 3. Eliminar venta
+
 function eliminarVenta(id) {
     Swal.fire({
         title: '¿Seguro de eliminar esta venta?',
@@ -1441,7 +1437,7 @@ function cargarProductosVenta() {
 
 
 
-let productosVenta = []; // Lista temporal para productos agregados
+let productosVenta = []; 
 
 
 
@@ -1449,7 +1445,6 @@ function closeModalVenta() {
   document.getElementById('modal-venta').style.display = 'none';
 }
 
-// Llenar select de productos
 function cargarProductosVenta() {
   let select = document.getElementById('producto-venta');
   select.innerHTML = '';
@@ -1465,13 +1460,13 @@ function cargarProductosVenta() {
     });
 }
 
-// Agregar producto al "carrito" de la venta
+
 function agregarProductoVenta() {
   let select = document.getElementById('producto-venta');
   let cantidad = parseInt(document.getElementById('cantidad-venta').value);
   if (!select.value || cantidad < 1) return;
 
-  // Ver si ya está el producto, suma la cantidad
+
   let idx = productosVenta.findIndex(p => p.producto_id == select.value);
   if (idx >= 0) {
     productosVenta[idx].cantidad += cantidad;
@@ -1486,7 +1481,7 @@ function agregarProductoVenta() {
   document.getElementById('cantidad-venta').value = 1;
 }
 
-// Renderiza tabla de productos agregados
+
 function renderTablaProductosVenta() {
   let tbody = document.querySelector('#tabla-productos-venta tbody');
   tbody.innerHTML = '';
@@ -1503,20 +1498,20 @@ function renderTablaProductosVenta() {
   });
 }
 
-// Quitar producto del "carrito"
+
 function quitarProductoVenta(idx) {
   productosVenta.splice(idx, 1);
   renderTablaProductosVenta();
 }
 
-// Submit de la venta (envía todos los productos)
+
 function enviarVenta(e) {
   e.preventDefault();
   if (productosVenta.length === 0) return alert('Agrega al menos un producto.');
   let fecha = document.getElementById('fecha-venta').value;
   let usuario = JSON.parse(localStorage.getItem('usuario'));
   let token = localStorage.getItem('token');
-  // Formatea los detalles como espera el backend
+ 
   let detalles = productosVenta.map(p => ({ producto_id: p.producto_id, cantidad: p.cantidad }));
 
   fetch('http://127.0.0.1:8000/api/ventas', {
@@ -1565,7 +1560,7 @@ function visualizarVenta(id) {
         document.getElementById('boleta-fecha').textContent = venta.fecha || '-';
         document.getElementById('boleta-total').textContent = 'S/ ' + parseFloat(venta.total).toFixed(2);
 
-        // Muestra nombre de cliente (con email si hay), y usuario/trabajador
+
         let textoCliente = '-';
         if (venta.cliente && venta.cliente.nombre) {
             textoCliente = venta.cliente.nombre;
@@ -1578,7 +1573,7 @@ function visualizarVenta(id) {
         }
         document.getElementById('boleta-cliente').textContent = textoCliente;
 
-        // Render productos (igual que antes)
+
         let filas = '';
         (venta.detalle_ventas || []).forEach(det => {
             filas += `
@@ -1613,13 +1608,12 @@ function cerrarModalBoleta() {
 
 
 <!-- Modal para la boleta -->
-<!-- Modal para Boleta de Venta -->
-<!-- MODAL PARA BOLETA -->
+
 <div id="modal-boleta" class="fixed inset-0 z-50 bg-black/40 flex items-center justify-center" style="display:none;">
   <div id="modal-boleta-content" class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-8 relative print:w-[700px]">
     <!-- LOGO Y EMPRESA -->
     <div class="flex items-center gap-3 mb-3 justify-center">
-      <!-- SVG Estrella igual al PDF -->
+    
       <svg width="40" height="40" viewBox="0 0 100 100"><polygon points="50,13 65,41 97,41 71,61 81,92 50,73 19,92 29,61 3,41 35,41" fill="none" stroke="#1a8fe3" stroke-width="6"/></svg>
       <h2 class="text-3xl font-bold" style="color: #1a8fe3;">Innova Negocios</h2>
     </div>
@@ -1665,9 +1659,9 @@ function closeModalBoleta() {
 
 
 
-let productosStock = []; // Lista de productos (id, nombre, stock, etc.)
+let productosStock = []; 
 
-// Carga los productos y su stock al abrir el modal
+
 function cargarProductosParaVenta() {
     let token = localStorage.getItem('token');
     fetch('http://127.0.0.1:8000/api/productos', {
@@ -1675,8 +1669,7 @@ function cargarProductosParaVenta() {
     })
     .then(res => res.json())
     .then(data => {
-        productosStock = data; // Guarda la lista para validación rápida
-        // Llena el select de productos
+        productosStock = data; 
         let select = document.getElementById('producto-venta');
         select.innerHTML = '<option value="">Seleccione un producto</option>';
         data.forEach(prod => {
@@ -1685,10 +1678,10 @@ function cargarProductosParaVenta() {
     });
 }
 
-// Llama a esta función cuando abras el modal de venta
+
 document.getElementById('btn-ventas').addEventListener('click', cargarProductosParaVenta);
 
-// Validación cuando cambia la cantidad o el producto seleccionado
+
 document.getElementById('cantidad-venta').addEventListener('input', validarStockDisponible);
 document.getElementById('producto-venta').addEventListener('change', validarStockDisponible);
 
@@ -1706,38 +1699,37 @@ function validarStockDisponible() {
         document.getElementById('cantidad-venta').setCustomValidity('');
         if (btnGuardar) btnGuardar.disabled = false;
     } else {
-        // Si no hay producto seleccionado o cantidad es 0
+       
         if (btnGuardar) btnGuardar.disabled = true;
     }
 }
 
-// Asegúrate de deshabilitar el botón al abrir el modal o al limpiar el form
+
 document.getElementById('form-venta').addEventListener('reset', function () {
     let btnGuardar = document.getElementById('btn-guardar-venta');
     if (btnGuardar) btnGuardar.disabled = true;
 });
 
-// Supón que tienes un array productosStock con los productos y su stock
-// y el id de tu select es 'producto-venta' y la cantidad 'cantidad-venta'
+
 
 function validarCantidadAgregar() {
     let select = document.getElementById('producto-venta');
     let cantidad = parseInt(document.getElementById('cantidad-venta').value) || 0;
     let productoId = select.value;
-    let producto = productosStock.find(p => p.id == productoId); // O ajusta al nombre de tu array de productos
+    let producto = productosStock.find(p => p.id == productoId); 
     let btnAgregar = document.getElementById('btn-agregar-producto');
 
-    // Busca cuántos ya tienes en el carrito de ese producto
+    
     let yaEnCarrito = 0;
     if (window.productosVenta) {
         let prodEnCarrito = productosVenta.find(p => p.producto_id == productoId);
         yaEnCarrito = prodEnCarrito ? prodEnCarrito.cantidad : 0;
     }
 
-    // Stock disponible restante
+    
     let disponible = producto ? producto.stock - yaEnCarrito : 0;
 
-    // Si lo que se intenta agregar es mayor a lo disponible, deshabilita el botón
+ 
     if (!productoId || cantidad < 1 || cantidad > disponible) {
         btnAgregar.disabled = true;
     } else {
@@ -1748,7 +1740,7 @@ function validarCantidadAgregar() {
 document.getElementById('producto-venta').addEventListener('change', validarCantidadAgregar);
 document.getElementById('cantidad-venta').addEventListener('input', validarCantidadAgregar);
 
-// Después de agregar o quitar del carrito:
+
 validarCantidadAgregar();
 
 
@@ -1757,16 +1749,16 @@ function puedeAgregarProducto() {
     let cantidad = parseInt(document.getElementById('cantidad-venta').value) || 0;
     let productoId = parseInt(select.value);
 
-    // Busca producto en stock
+  
     let prodStock = productosStock.find(p => p.id === productoId);
     if (!prodStock) return false;
 
-    // Cuánto hay ya en carrito de ese producto
+  
     let enCarrito = 0;
     let prodCarrito = productosVenta.find(p => p.producto_id === productoId);
     if (prodCarrito) enCarrito = prodCarrito.cantidad;
 
-    // ¿Supera el stock?
+   
     if ((cantidad + enCarrito) > prodStock.stock || cantidad < 1) {
         return false;
     }
@@ -1782,9 +1774,9 @@ document.getElementById('cantidad-venta').addEventListener('input', actualizarEs
 
 
 
-//Panel principal
+
 function actualizarContadoresDashboard() {
-    // Productos
+ 
     fetch('http://127.0.0.1:8000/api/productos', {
         headers: { 'Accept': 'application/json' }
     })
@@ -1793,7 +1785,7 @@ function actualizarContadoresDashboard() {
         document.getElementById('contador-productos').textContent = data.length;
     });
 
-    // Ventas
+    
     fetch('http://127.0.0.1:8000/api/ventas', {
         headers: { 
             'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -1817,14 +1809,14 @@ function actualizarContadoresDashboard() {
         document.getElementById('contador-clientes').textContent = data.length;
     });
 
-    // Reportes (si lo quieres dinámico, aquí lo pones. Si es fijo, déjalo como está.)
+   
     document.getElementById('contador-reportes').textContent = 5;
 }
 
 document.addEventListener('DOMContentLoaded', actualizarContadoresDashboard);
 
 
-// Llenar el select de categorías al cargar
+
 function cargarCategoriasSelect() {
   fetch('http://127.0.0.1:8000/api/categorias')
     .then(res => res.json())
@@ -1839,7 +1831,7 @@ function cargarCategoriasSelect() {
 document.addEventListener('DOMContentLoaded', cargarCategoriasSelect);
 
 
-//Limpiar campo file tras guardar
+
 document.getElementById('imagen-producto').value = "";
 
 

@@ -16,7 +16,7 @@ class Categoria extends Model
     protected $fillable = ['nombre', 'descripcion'];
 
 
-    // Relación inversa
+ 
     public function productos()
     {
         return $this->hasMany(Producto::class);

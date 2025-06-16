@@ -16,7 +16,7 @@ class Producto extends Model
         'descripcion',
         'precio',
         'stock',
-        'categoria_id', // <-- Agrega esto
+        'categoria_id', 
         'imagen', 
     ];
 

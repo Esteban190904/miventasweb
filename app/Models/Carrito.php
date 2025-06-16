@@ -18,7 +18,7 @@ class Carrito extends Model
             ->withTimestamps();
     }
 
-    // (Opcional) Relación con usuario, si quieres
+    
     public function usuario()
     {
         return $this->belongsTo(Usuario::class, 'usuario_id');

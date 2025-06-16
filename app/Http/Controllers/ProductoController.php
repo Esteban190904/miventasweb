@@ -28,7 +28,7 @@ class ProductoController extends Controller
         ]);
 
         if ($request->hasFile('imagen')) {
-            // Guarda en storage/app/public/uploads
+            
             $path = $request->file('imagen')->store('uploads', 'public');
             $validated['imagen'] = basename($path);
         }
@@ -53,10 +53,10 @@ class ProductoController extends Controller
             'precio' => 'sometimes|required|numeric|min:0',
             'stock' => 'sometimes|required|integer|min:0',
             'categoria_id' => 'required|exists:categorias,id',
-            'imagen' => 'nullable|image|max:2048', // <-- Maneja imagen opcional
+            'imagen' => 'nullable|image|max:2048', 
         ]);
 
-        // Si hay nueva imagen, la procesa
+       
         if ($request->hasFile('imagen')) {
             if ($producto->imagen) {
                 Storage::disk('public')->delete('uploads/' . $producto->imagen);

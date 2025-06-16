@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\DB;
 
 class CarritoController extends Controller
 {
-    // Obtener el carrito del usuario autenticado (o de un usuario fijo para pruebas)
+    // Obtener el carrito del usuario autenticado 
     public function index(Request $request)
     {
-        $usuario_id = 1; // Cambia por $request->user()->id si usas auth
+        $usuario_id = 1; 
         $carrito = Carrito::where('usuario_id', $usuario_id)
             ->where('completado', false)
             ->with('productos')
@@ -33,7 +33,7 @@ class CarritoController extends Controller
             'producto_id' => 'required|exists:productos,id',
             'cantidad' => 'required|integer|min:1'
         ]);
-        $usuario_id = 1; // Cambia por $request->user()->id si usas auth
+        $usuario_id = 1; 
 
         $carrito = Carrito::firstOrCreate(
             ['usuario_id' => $usuario_id, 'completado' => false]
@@ -53,10 +53,10 @@ class CarritoController extends Controller
         return response()->json(['mensaje' => 'Producto agregado']);
     }
 
-    // Checkout/finalizar compra (marca el carrito como completado)
+   
     public function checkout(Request $request)
     {
-        $usuario_id = 1; // Cambia por $request->user()->id si usas auth
+        $usuario_id = 1; 
 
         // Busca el carrito activo del usuario
         $carrito = \App\Models\Carrito::where('usuario_id', $usuario_id)
@@ -81,12 +81,11 @@ class CarritoController extends Controller
         // Generar PDF con los productos del carrito
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('boleta', [
             'carrito' => $carrito->productos,
-            'nombre_cliente' => 'Cliente', // O del usuario logueado
+            'nombre_cliente' => 'Cliente', 
             'total' => $total
         ]);
 
-        // Limpiar el carrito (opcional, ya está completado)
-        // $carrito->productos()->detach();
+       
 
         // Descargar PDF
         return $pdf->download('mini-boleta.pdf');
@@ -99,7 +98,7 @@ class CarritoController extends Controller
             'producto_id' => 'required|exists:productos,id',
         ]);
 
-        $usuario_id = 1; // Cambia por $request->user()->id si usas auth
+        $usuario_id = 1;
 
         // Busca el carrito no completado del usuario
         $carrito = \App\Models\Carrito::where('usuario_id', $usuario_id)
@@ -118,7 +117,7 @@ class CarritoController extends Controller
 
     public function clear(Request $request)
     {
-        $usuario_id = 1; // Cambia por $request->user()->id si usas auth
+        $usuario_id = 1; 
 
         $carrito = \App\Models\Carrito::where('usuario_id', $usuario_id)
                                     ->where('completado', false)
@@ -128,7 +127,7 @@ class CarritoController extends Controller
             return response()->json(['error' => 'Carrito no encontrado'], 404);
         }
 
-        // Quita todos los productos del carrito
+        
         $carrito->productos()->detach();
 
         return response()->json(['mensaje' => 'Carrito vaciado']);

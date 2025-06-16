@@ -10,7 +10,7 @@ class GeminiChatController extends Controller
     public function responder_gemini(Request $request)
     {
         $mensaje = $request->input('mensaje');
-        $apiKey = 'AIzaSyBVAK0yk3DxgypyoRiRzGzYPo6SZkW7JAw'; // ← Pega aquí tu clave real
+        $apiKey = 'AIzaSyBVAK0yk3DxgypyoRiRzGzYPo6SZkW7JAw'; 
 
        $response = Http::post("https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=$apiKey", [
     'contents' => [

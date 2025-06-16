@@ -263,7 +263,7 @@ document.getElementById('form-login').onsubmit = async function(e) {
   const password = document.getElementById('login-password').value;
 
   try {
-    const res = await fetch('http://127.0.0.1:8000/api/login-cliente', { // Cambia el endpoint según corresponda
+    const res = await fetch('http://127.0.0.1:8000/api/login-cliente', { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -289,8 +289,8 @@ document.getElementById('form-login').onsubmit = async function(e) {
     }
 
     // Guarda el usuario cliente logueado
-    localStorage.setItem('token', data.token || ''); // Si tienes token, si no, puedes guardar el ID, etc.
-    localStorage.setItem('usuario_nombre', data.cliente?.nombre || ''); // 'cliente'
+    localStorage.setItem('token', data.token || ''); 
+    localStorage.setItem('usuario_nombre', data.cliente?.nombre || ''); 
     localStorage.setItem('usuario_email', data.cliente.email);
 
 
@@ -324,13 +324,13 @@ document.getElementById('form-register').onsubmit = async function(e) {
   const nombre = document.getElementById('register-name').value.trim();
   const email = document.getElementById('register-email').value.trim();
   const password = document.getElementById('register-password').value;
-  const telefono = document.getElementById('register-telefono').value.trim(); // <--- AGREGADO
+  const telefono = document.getElementById('register-telefono').value.trim(); 
 
   try {
     const res = await fetch('http://127.0.0.1:8000/api/clientes', {
       method: 'POST',
       headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-      body: JSON.stringify({ nombre, email, password, telefono }) // <--- AGREGADO
+      body: JSON.stringify({ nombre, email, password, telefono }) 
     });
 
     const data = await res.json();

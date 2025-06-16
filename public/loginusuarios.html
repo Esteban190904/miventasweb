@@ -212,7 +212,7 @@ document.getElementById('form-login').onsubmit = async e => {
 
   if (response.ok) {
     const data = await response.json();
-    // Guarda el token en localStorage
+ 
     localStorage.setItem('token', data.access_token);
     localStorage.setItem('usuario', JSON.stringify(data.usuario));
 
@@ -222,7 +222,7 @@ document.getElementById('form-login').onsubmit = async e => {
       text: 'Bienvenido al sistema ' + data.usuario.nombre,
       confirmButtonColor: '#4b79a1'
     }).then(() => {
-      window.location.href = "paginausuarios.html"; // Cambia la ruta si tu dashboard tiene otro nombre o ruta
+      window.location.href = "paginausuarios.html"; 
     });
 
   } else {
