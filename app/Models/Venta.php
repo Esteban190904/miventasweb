@@ -15,6 +15,7 @@ class Venta extends Model
         'usuario_id',
         'fecha',
         'total',
+        // 'cliente_id', // <-- ELIMINADO
     ];
 
     public function usuario()
@@ -22,13 +23,8 @@ class Venta extends Model
         return $this->belongsTo(Usuario::class);
     }
 
-    
-
     public function detalleVentas()
     {
         return $this->hasMany(DetalleVenta::class, 'venta_id');
     }
-    
-
-
 }

@@ -10,12 +10,10 @@ use Illuminate\Support\Facades\DB;
 class VentaController extends Controller
 {
     // Listar todas las ventas
-   public function index()
+    public function index()
     {
         return Venta::with(['usuario', 'detalleVentas.producto'])->get();
     }
-
-
 
     // Registrar una nueva venta
     public function store(Request $request)
@@ -34,49 +32,41 @@ class VentaController extends Controller
             $detalles_validos = [];
 
             foreach ($request->detalles as $detalle) {
-                // Obtén el producto desde la BD
                 $producto = \App\Models\Producto::findOrFail($detalle['producto_id']);
 
-                // Verifica stock suficiente
                 if ($producto->stock < $detalle['cantidad']) {
                     throw new \Exception("Stock insuficiente para el producto: {$producto->nombre}");
                 }
 
-                // Calcula el subtotal (precio actual de la BD * cantidad)
                 $subtotal = $producto->precio * $detalle['cantidad'];
                 $total += $subtotal;
 
-                // Almacena el detalle listo para registrar
                 $detalles_validos[] = [
                     'producto_id' => $producto->id,
                     'cantidad' => $detalle['cantidad'],
-                    'precio_unitario' => $producto->precio // Cambiado aquí
+                    'precio_unitario' => $producto->precio
                 ];
             }
 
-            // Crea la venta
             $venta = Venta::create([
                 'usuario_id' => $request->usuario_id,
                 'fecha' => $request->fecha,
                 'total' => $total
             ]);
 
-            // Registra cada detalle y descuenta stock
             foreach ($detalles_validos as $detalle) {
                 DetalleVenta::create([
                     'venta_id' => $venta->id,
                     'producto_id' => $detalle['producto_id'],
                     'cantidad' => $detalle['cantidad'],
                     'precio_unitario' => $detalle['precio_unitario'],
-                    'subtotal' => $detalle['precio_unitario'] * $detalle['cantidad'] // <-- AGREGA ESTO
+                    'subtotal' => $detalle['precio_unitario'] * $detalle['cantidad']
                 ]);
 
-                // Descuenta stock
                 $producto = \App\Models\Producto::find($detalle['producto_id']);
                 $producto->stock -= $detalle['cantidad'];
                 $producto->save();
             }
-
 
             DB::commit();
             return response()->json($venta->load('detalleVentas'), 201);
@@ -89,10 +79,8 @@ class VentaController extends Controller
     // Mostrar una venta específica
     public function show($id)
     {
-        // Asegúrate de incluir la relación producto en cada detalle
         return Venta::with(['usuario', 'detalleVentas.producto'])->findOrFail($id);
     }
-
 
     // Eliminar una venta
     public function destroy($id)

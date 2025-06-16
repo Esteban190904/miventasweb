@@ -17,6 +17,7 @@ class Producto extends Model
         'precio',
         'stock',
         'categoria_id', // <-- Agrega esto
+        'imagen', 
     ];
 
     // Relación con Categoría

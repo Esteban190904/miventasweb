@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Cliente;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
+
 
 class ClienteController extends Controller
 {
@@ -20,9 +23,14 @@ class ClienteController extends Controller
             'email' => 'required|email|unique:clientes,email',
             'telefono' => 'nullable|string|max:20',
             'direccion' => 'nullable|string|max:255',
+            'password' => 'required|string|min:6',
         ]);
 
-        return Cliente::create($request->all());
+        // ENCRIPTAR CONTRASEÑA
+        $data = $request->all();
+        $data['password'] = Hash::make($request->password);
+
+        return Cliente::create($data);
     }
 
     public function show($id)
@@ -53,4 +61,28 @@ class ClienteController extends Controller
 
         return response()->json(['message' => 'Cliente eliminado']);
     }
+
+
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        $cliente = Cliente::where('email', $request->email)->first();
+        if (!$cliente || !Hash::check($request->password, $cliente->password)) {
+            return response()->json(['message' => 'Credenciales incorrectas'], 401);
+        }
+
+        $token = $cliente->createToken('cliente-token')->plainTextToken;
+
+        return response()->json([
+            'message' => 'Login exitoso',
+            'cliente' => $cliente,
+            'token' => $token,
+        ]);
+    }
+
+
 }

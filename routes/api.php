@@ -9,12 +9,17 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\ChatbotController;
+use App\Http\Controllers\GeminiChatController;
+
 
 // Rutas públicas (acceso sin autenticación)
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 // Puedes permitir a cualquier usuario ver productos (catálogo público)
+  Route::get('/productos/estrella', [ProductoController::class, 'masVendidos']);
+
 Route::get('/productos', [ProductoController::class, 'index']);
 Route::get('/productos/{id}', [ProductoController::class, 'show']);
 
@@ -59,6 +64,12 @@ Route::get('/prueba', function () {
 Route::apiResource('categorias', CategoriaController::class);
 
 Route::apiResource('clientes', ClienteController::class);
+Route::post('/login-cliente', [ClienteController::class, 'login']);
 
+
+Route::post('/chatbot', [ChatbotController::class, 'responder']);
+
+
+Route::post('/chatbot', [GeminiChatController::class, 'responder_gemini']);
 
 

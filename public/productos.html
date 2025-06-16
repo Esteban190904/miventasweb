@@ -7,9 +7,28 @@
   <!-- TailwindCSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Flowbite CSS -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />}
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
   <!-- SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
+
+<style>
+/* Corrige el color del texto en botones de SweetAlert2 */
+.swal2-confirm, .swal2-cancel, .swal2-deny, .swal2-styled {
+    color: #fff !important;        /* Blanco fuerte */
+    background: #2563eb !important; /* Azul, cámbialo si prefieres */
+    border: none !important;
+}
+.swal2-cancel {
+    background: #64748b !important; /* Gris fuerte para cancelar */
+}
+.swal2-confirm:focus, .swal2-cancel:focus {
+    outline: 2px solid #fb9d5c !important; /* Para accesibilidad */
+}
+</style>
+
 
 </head>
 <body class="bg-gray-100 min-h-screen font-sans">
@@ -21,13 +40,30 @@
           fill="none" stroke="#1a8fe3" stroke-width="6"/>
       </svg>
     </div>
-    <span class="text-2xl font-bold tracking-wide">INNOVA NEGOCIOS</span>
+    <a href="public.html" class="text-2xl font-bold tracking-wide">INNOVA NEGOCIOS</a>
     <!-- Botón de carrito abre modal Flowbite -->
     <button data-modal-target="carrito-modal" data-modal-toggle="carrito-modal"
       class="ml-auto flex items-center space-x-2 cursor-pointer hover:bg-blue-400 rounded-lg px-3 py-2 transition relative">
       <svg width="28" height="28" fill="none" viewBox="0 0 28 28"><circle cx="11" cy="24" r="2" fill="#fff"/><circle cx="21" cy="24" r="2" fill="#fff"/><path d="M4 5h2l2.4 11.25a2 2 0 0 0 2 1.75h7.2a2 2 0 0 0 2-1.75L22 7H6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
       <span id="cart-count" class="bg-orange-400 rounded-full px-2 py-0.5 text-white text-sm font-bold absolute -top-1 -right-2">0</span>
     </button>
+    <span id="user-greeting" class="ml-4 text-white font-bold"></span>
+
+
+   <!-- Botón Login/Registro -->
+<button id="btn-login" class="ml-4 bg-white text-blue-600 px-4 py-2 rounded font-semibold hover:bg-blue-50 shadow transition">
+  Iniciar sesión / Registrarse
+</button>
+
+<!-- Botón Logout (Cerrar sesión) -->
+<button id="btn-logout" class="ml-2 px-3 py-2 rounded bg-orange-500 text-white font-bold hover:bg-red-400" style="display:none;">
+  Cerrar sesión
+</button>
+
+<!-- Saludo usuario -->
+<span id="user-greeting" class="ml-3 text-white font-bold"></span>
+
+
   </header>
   <div class="flex">
     <!-- Sidebar -->
@@ -70,8 +106,8 @@
   <!-- Modal de carrito Flowbite -->
   <div id="carrito-modal" tabindex="-1" aria-hidden="true"
     class="hidden fixed top-0 left-0 right-0 z-[9998] w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full bg-black/30">
-    <div class="relative w-full max-w-md h-full md:h-auto m-auto mt-20">
-      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+    <div class="relative w-full max-w-lg h-full md:h-auto m-auto mt-20">
+      <div class="relative bg-white rounded-2xl shadow-xl p-8 w-full max-w-lg">
         <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 
             hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="carrito-modal">
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" 
@@ -82,7 +118,11 @@
           <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Carrito de compras</h3>
           <div id="carrito-items"></div>
           <div id="carrito-total" class="font-bold mt-4 mb-2"></div>
-          <button onclick="finalizarCompra()" class="mt-2 bg-blue-500 text-white font-bold px-6 py-2 rounded hover:bg-orange-400 transition">Finalizar compra</button>
+          <button onclick="finalizarCompra()" class="mt-4 w-full bg-gradient-to-r from-blue-500 to-orange-400 text-white font-bold px-6 py-2 rounded-xl shadow hover:opacity-90 transition">
+  <svg class="inline mr-1 -mt-1" width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M8 17l4.586-4.586a2 2 0 012.828 0L21 18" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7.5" cy="7.5" r="3.5" stroke="#fff" stroke-width="2"/></svg>
+  Finalizar compra
+</button>
+
         </div>
       </div>
     </div>
@@ -119,7 +159,7 @@
       }
       productos.forEach(prod => {
         let catNombre = prod.categoria && prod.categoria.nombre ? prod.categoria.nombre : categoriaNombres[prod.categoria_id] || "";
-        let imgUrl = prod.imagen ? 'http://127.0.0.1:8000/uploads/' + prod.imagen : DEFAULT_IMG;
+        let imgUrl = prod.imagen ? 'http://127.0.0.1:8000/storage/uploads/' + prod.imagen : DEFAULT_IMG;
         const card = document.createElement('div');
         card.className = 'bg-white rounded-lg shadow flex flex-col items-center p-5 transition hover:shadow-xl min-h-[280px]';
         card.innerHTML = `
@@ -229,25 +269,39 @@
     document.querySelector('[data-modal-toggle="carrito-modal"]').addEventListener('click', renderizarCarritoItems);
 
     function renderizarCarritoItems() {
-      const itemsDiv = document.getElementById('carrito-items');
-      if (!carrito.length) {
-        itemsDiv.innerHTML = "<div>No hay productos en el carrito.</div>";
-        document.getElementById('carrito-total').textContent = '';
-        return;
-      }
-      itemsDiv.innerHTML = carrito.map(item => `
-        <div class="flex items-center mb-4 gap-4">
-          <img src="${item.imagen ? 'http://127.0.0.1:8000/uploads/' + item.imagen : DEFAULT_IMG}" alt="${item.nombre}" class="w-10 h-10 rounded object-cover bg-blue-50" />
-          <div class="flex-1">
-            <div class="font-semibold">${item.nombre}</div>
-            <div class="text-sm text-gray-500">S/ ${Number(item.precio).toFixed(2)} x ${item.cantidad}</div>
-          </div>
-          <button onclick="eliminarDelCarrito(${item.id})" class="text-orange-500 text-2xl leading-5 hover:text-red-500">&times;</button>
+    const itemsDiv = document.getElementById('carrito-items');
+    if (!carrito.length) {
+      itemsDiv.innerHTML = `
+        <div class="text-center py-8 text-gray-400">
+          <svg class="mx-auto mb-2" width="42" height="42" fill="none" viewBox="0 0 100 100">
+            <polygon points="50,13 65,41 97,41 71,61 81,92 50,73 19,92 29,61 3,41 35,41"
+              fill="none" stroke="#1a8fe3" stroke-width="6"/>
+          </svg>
+          <span class="font-semibold">No hay productos en el carrito.</span>
         </div>
-      `).join('');
-      const total = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
-      document.getElementById('carrito-total').textContent = 'Total: S/ ' + total.toFixed(2);
+      `;
+      document.getElementById('carrito-total').textContent = '';
+      return;
     }
+
+    itemsDiv.innerHTML = carrito.map(item => `
+      <div class="flex items-center gap-3 py-2 border-b border-gray-100 last:border-0 transition-all group">
+        <img src="${item.imagen ? 'http://127.0.0.1:8000/storage/uploads/' + item.imagen : DEFAULT_IMG}" ...
+          alt="${item.nombre}" class="w-12 h-12 rounded-lg bg-blue-50 object-contain shadow" />
+        <div class="flex-1 min-w-0">
+          <div class="font-semibold text-gray-900 truncate">${item.nombre}</div>
+          <div class="text-xs text-gray-500">S/ ${Number(item.precio).toFixed(2)} x ${item.cantidad}</div>
+        </div>
+        <button onclick="eliminarDelCarrito(${item.id})"
+          class="ml-2 text-gray-400 hover:text-red-500 text-xl rounded transition font-bold flex-shrink-0">
+          &times;
+        </button>
+      </div>
+    `).join('');
+    const total = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
+    document.getElementById('carrito-total').innerHTML = `<span class="text-lg font-bold text-blue-700">Total: S/ ${total.toFixed(2)}</span>`;
+  }
+
 
     function eliminarDelCarrito(id) {
       carrito = carrito.filter(item => item.id !== id);
@@ -256,7 +310,122 @@
       renderizarCarritoItems();
     }
 
-    function finalizarCompra() {
+
+
+//Imprimir la boleta para el cliente
+function drawStar(doc, x, y, size, color="#1a8fe3") {
+  // Dibuja una estrella tipo logo (no rellena)
+  const points = [
+    [50,13],[65,41],[97,41],[71,61],[81,92],
+    [50,73],[19,92],[29,61],[3,41],[35,41]
+  ];
+  const scaled = points.map(([px,py]) => [
+    x + (px-30)*(size/70),   // Ajusta el X para centrar mejor
+    y + (py-13)*(size/70)
+  ]);
+  doc.setDrawColor(color);
+  doc.setLineWidth(1.2);
+  for (let i = 0; i < scaled.length; i++) {
+    const [x1, y1] = scaled[i];
+    const [x2, y2] = scaled[(i+1)%scaled.length];
+    doc.line(x1, y1, x2, y2);
+  }
+}
+
+
+
+
+function descargarBoletaPDF(carrito, usuario) {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  // --- Logo tipo estrella al lado del texto ---
+  // 1. Logo estrella
+  drawStar(doc, 22, 9, 12); // Más arriba y más a la izquierda, tamaño chico
+
+  // 2. Título
+  doc.setFontSize(22);
+  doc.setTextColor(26, 143, 227);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Innova Negocios', 37, 20); // Más a la derecha y un poquito abajo
+
+
+  // --- Fecha ---
+  doc.setFontSize(10);
+  doc.setTextColor(60);
+  doc.text('Fecha: ' + new Date().toLocaleString(), 15, 32);
+
+  // --- Datos cliente ---
+  doc.setFontSize(12);
+  doc.setTextColor(60,60,60);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Cliente: ', 15, 40);
+  doc.setFont('helvetica', 'normal');
+  doc.text(usuario.nombre || '', 36, 40);
+
+  doc.setFont('helvetica', 'bold');
+  doc.text('Correo: ', 15, 46);
+  doc.setFont('helvetica', 'normal');
+  doc.text(usuario.email || '', 36, 46);
+
+  // --- Tabla productos ---
+  const items = carrito.map(item => [
+    item.nombre,
+    item.cantidad,
+    `S/ ${Number(item.precio).toFixed(2)}`,
+    `S/ ${(item.cantidad * item.precio).toFixed(2)}`
+  ]);
+  doc.autoTable({
+    head: [['Producto', 'Cantidad', 'Precio', 'Subtotal']],
+    body: items,
+    startY: 56,
+    headStyles: { fillColor: [26, 143, 227], textColor: 255, fontStyle: 'bold' },
+    styles: { fontSize: 12 }
+  });
+
+  // --- Total ---
+  const total = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+  doc.setFontSize(15);
+  doc.setTextColor(220, 53, 69);
+  doc.setFont('helvetica', 'bold');
+  doc.text(`TOTAL: S/ ${total.toFixed(2)}`, 15, doc.lastAutoTable.finalY + 15);
+
+  // --- Descargar PDF ---
+  doc.save(`Boleta_InnovaNegocios_${new Date().toISOString().slice(0,10)}.pdf`);
+}
+
+function finalizarCompra() {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    // Cierra el modal del carrito antes de mostrar la alerta
+    document.querySelector('[data-modal-hide="carrito-modal"]').click();
+
+    // Guarda la intención de regresar al carrito tras login
+    localStorage.setItem('redirigir_despues_login', 'carrito');
+
+    setTimeout(() => {
+      Swal.fire({
+        icon: 'info',
+        title: 'Inicia sesión para continuar',
+        text: 'Debes iniciar sesión o registrarte para finalizar la compra.',
+        confirmButtonText: 'Ir al login'
+      }).then(() => {
+        window.location.href = 'loginclientes.html';
+      });
+    }, 200);
+    return;
+  }
+
+  // **Genera y descarga la boleta antes de vaciar el carrito**
+  const usuario = {
+  nombre: localStorage.getItem('usuario_nombre') || '',
+   email: localStorage.getItem('usuario_email') || '' // O guarda el email cuando hagas login/registro para tenerlo aquí
+};
+
+  if (carrito && carrito.length > 0) {
+    descargarBoletaPDF(carrito, usuario);
+  }
+
   Swal.fire({
     icon: 'success',
     title: '¡Gracias por tu compra!',
@@ -264,11 +433,82 @@
     timer: 1800,
     showConfirmButton: false
   });
+
   carrito = [];
   guardarCarrito();
   actualizarCartCount();
   document.querySelector('[data-modal-hide="carrito-modal"]').click();
 }
+
+
+
+
+
+
+
+
+//Boton para iniciar sesion
+document.getElementById('btn-login').addEventListener('click', function() {
+    window.location.href = 'loginclientes.html'; 
+  });
+
+
+
+
+
+
+
+// --- Gestión de login/logout en la página de productos ---
+// ¡No pongas localStorage.setItem aquí, solo en el login!
+
+document.addEventListener('DOMContentLoaded', function() {
+  const token = localStorage.getItem('token');
+  const btnLogin = document.getElementById('btn-login');
+  const btnLogout = document.getElementById('btn-logout');
+  const userGreeting = document.getElementById('user-greeting');
+  const nombre = localStorage.getItem('usuario_nombre'); // O el campo que guardaste
+
+  // Mostrar u ocultar botones según login
+  if (token) {
+    if (btnLogin) btnLogin.style.display = 'none';
+    if (btnLogout) btnLogout.style.display = '';
+    if (userGreeting && nombre) userGreeting.textContent = `¡Hola, ${nombre}!`;
+  } else {
+    if (btnLogin) btnLogin.style.display = '';
+    if (btnLogout) btnLogout.style.display = 'none';
+    if (userGreeting) userGreeting.textContent = '';
+  }
+
+  // Evento para redirigir a login
+  if (btnLogin) {
+    btnLogin.addEventListener('click', function() {
+      window.location.href = 'loginclientes.html';
+    });
+  }
+
+  // Evento para cerrar sesión (con confirmación pro)
+  if (btnLogout) {
+    btnLogout.addEventListener('click', function() {
+      Swal.fire({
+        icon: 'question',
+        title: '¿Cerrar sesión?',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, salir',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('usuario_nombre');
+          location.reload();
+        }
+      });
+    });
+  }
+});
+
+
+
+
 
   </script>
 </body>

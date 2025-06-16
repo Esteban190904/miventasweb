@@ -5,7 +5,7 @@ use App\Http\Controllers\CarritoController;
 
 
 Route::get('/', function () {
-    return redirect('/loginusuarios.html');
+    return redirect('/public.html');
 });
 
 

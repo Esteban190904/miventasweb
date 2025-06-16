@@ -17,7 +17,7 @@
         <polygon points="50,13 65,41 97,41 71,61 81,92 50,73 19,92 29,61 3,41 35,41"
           fill="none" stroke="#1a8fe3" stroke-width="6"/>
       </svg>
-      <span class="text-lg font-bold text-blue-700">Innova Negocios</span>
+      <a href="#inicio" class="text-lg font-bold text-blue-700">Innova Negocios</a>
     </div>
     <ul class="hidden md:flex gap-7 text-gray-700 font-semibold items-center">
       <li><a href="#inicio" class="hover:text-blue-700 transition">Inicio</a></li>
@@ -25,7 +25,7 @@
       <li><a href="#testimonios" class="hover:text-blue-700 transition">Testimonios</a></li>
       <li><a href="#contacto" class="hover:text-blue-700 transition">Contacto</a></li>
       <li>
-        <a href="#productos" class="ml-3 px-5 py-2 bg-blue-700 text-white rounded-lg font-bold hover:bg-blue-800 transition">
+        <a href="productos.html" class="ml-3 px-5 py-2 bg-blue-700 text-white rounded-lg font-bold hover:bg-blue-800 transition">
           Ver Catálogo
         </a>
       </li>
@@ -45,9 +45,7 @@
       <li><a href="#testimonios" class="block py-2 px-2 hover:text-blue-600">Testimonios</a></li>
       <li><a href="#contacto" class="block py-2 px-2 hover:text-blue-600">Contacto</a></li>
       <li>
-        <a href="#productos" class="block py-2 px-2 bg-blue-700 text-white rounded-lg text-center hover:bg-blue-800 transition">
-          Ver Catálogo
-        </a>
+        
       </li>
     </ul>
   </div>
@@ -107,8 +105,10 @@
 <section id="productos" class="py-14 bg-gray-50">
   <div class="max-w-6xl mx-auto px-4">
     <h2 class="text-3xl font-bold text-center text-blue-700 mb-10">PRODUCTOS ESTRELLA</h2>
-    <div id="productos-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"></div>
-  </div>
+    <div id="productos-estrella" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+  <!-- Aquí se insertarán las tarjetas con JS -->
+</div>
+
 </section>
 
 
@@ -238,10 +238,113 @@ document.querySelectorAll('a[href^="#"]').forEach(enlace => {
 <script>
 document.querySelector('form').addEventListener('submit', function(e) {
   e.preventDefault();
-  // Aquí podrías hacer un fetch a un endpoint de contacto real, o simplemente:
   alert('¡Mensaje enviado! Nos pondremos en contacto contigo pronto.');
   this.reset();
 });
+
+
+// Llama a la API al cargar
+document.addEventListener('DOMContentLoaded', () => {
+  fetch('http://127.0.0.1:8000/api/productos/estrella')
+    .then(res => res.json())
+    .then(productos => renderProductosEstrella(productos));
+});
+
+function renderProductosEstrella(productos) {
+  const cont = document.getElementById('productos-estrella');
+  cont.innerHTML = '';
+  productos.forEach(prod => {
+    let imgUrl = prod.imagen ? 'http://127.0.0.1:8000/storage/uploads/' + prod.imagen : 'https://cdn-icons-png.flaticon.com/512/1048/1048953.png';
+    let card = document.createElement('div');
+    card.className = 'bg-white rounded-xl shadow p-6 flex flex-col items-center cursor-pointer hover:shadow-lg transition group';
+    card.onclick = () => window.location.href = 'productos.html'; // O link al detalle
+    
+    card.innerHTML = `
+      <img src="${imgUrl}" alt="${prod.nombre}" class="w-24 h-24 object-contain mb-3 group-hover:scale-105 transition"/>
+      <div class="font-bold text-blue-900 text-lg mb-1">${prod.nombre}</div>
+      <div class="text-gray-600 text-sm mb-2">${prod.descripcion}</div>
+      <div class="text-blue-700 font-bold text-xl mb-2">S/ ${Number(prod.precio).toFixed(2)}</div>
+      <button class="bg-blue-500 hover:bg-orange-400 text-white font-semibold px-5 py-2 rounded transition">Ver productos</button>
+    `;
+    cont.appendChild(card);
+  });
+}
+
+
+</script>
+
+<div id="botonChat" onclick="abrirChat()">💬</div>
+
+<div id="ventanaChat" style="display:none;">
+  <div id="chatMensajes" style="max-height: 250px; overflow-y: auto; font-size: 14px; padding-bottom: 8px;"></div>
+  <input type="text" id="entradaMensaje" placeholder="Haz tu consulta tecnológica..." onkeydown="enviarMensaje(event)" class="w-full border-t px-2 py-1 outline-none">
+</div>
+
+<style>
+#botonChat {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #1a8fe3;
+  color: white;
+  padding: 15px 18px;
+  border-radius: 50%;
+  font-size: 24px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+  cursor: pointer;
+  z-index: 999;
+}
+#ventanaChat {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 320px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0px 8px 20px rgba(0,0,0,0.2);
+  z-index: 998;
+}
+#ventanaChat div {
+  margin-bottom: 6px;
+}
+</style>
+
+
+<script>
+function abrirChat() {
+  const chat = document.getElementById('ventanaChat');
+  chat.style.display = (chat.style.display === 'none' || chat.style.display === '') ? 'block' : 'none';
+}
+
+function enviarMensaje(e) {
+  if (e.key === 'Enter') {
+    const mensaje = document.getElementById('entradaMensaje').value.trim();
+    if (!mensaje) return;
+    document.getElementById('entradaMensaje').value = '';
+
+    const chatBox = document.getElementById('chatMensajes');
+    chatBox.innerHTML += `<div><b>Tú:</b> ${mensaje}</div>`;
+
+    fetch('/api/chatbot', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({ mensaje })
+    })
+    .then(res => res.json())
+    .then(data => {
+      chatBox.innerHTML += `<div><b>Bot:</b> ${data.respuesta}</div>`;
+      chatBox.scrollTop = chatBox.scrollHeight;
+    })
+    .catch(() => {
+      chatBox.innerHTML += `<div style="color:red;">Error al conectar con el bot.</div>`;
+    });
+  }
+}
 </script>
 
 
